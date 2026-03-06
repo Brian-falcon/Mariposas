@@ -8,6 +8,7 @@ export function CompleteWord({ activity }: { activity: Activity }) {
     word: string;
     hint: string;
     options: string[];
+    missingLetterIndex: number;
   };
   const [result, setResult] = useState<boolean | null>(null);
 
