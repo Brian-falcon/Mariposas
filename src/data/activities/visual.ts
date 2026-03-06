@@ -1,0 +1,130 @@
+import { Activity } from "@/types";
+
+export const visualActivities: Activity[] = [
+  {
+    id: "vis-1",
+    title: "Reconocer colores - Básico",
+    description: "Selecciona el color que se muestra",
+    category: "visual",
+    difficulty: "easy",
+    type: "recognize-colors",
+    data: {
+      targetColor: "rojo",
+      colorHex: "#E86B6B",
+      options: ["rojo", "azul", "verde", "amarillo"],
+      colorOptions: ["#E86B6B", "#4A90D9", "#5CB85C", "#F5A623"],
+    },
+  },
+  {
+    id: "vis-2",
+    title: "Reconocer colores - Varios",
+    description: "Identifica el color correcto",
+    category: "visual",
+    difficulty: "medium",
+    type: "recognize-colors",
+    data: {
+      targetColor: "morado",
+      colorHex: "#9B59B6",
+      options: ["rojo", "morado", "naranja", "verde"],
+      colorOptions: ["#E86B6B", "#9B59B6", "#F5A623", "#5CB85C"],
+    },
+  },
+  {
+    id: "vis-3",
+    title: "Identificar formas - Básico",
+    description: "¿Cuál es esta forma?",
+    category: "visual",
+    difficulty: "easy",
+    type: "identify-shapes",
+    data: {
+      shape: "círculo",
+      shapeEmoji: "⭕",
+      options: ["círculo", "cuadrado", "triángulo"],
+    },
+  },
+  {
+    id: "vis-4",
+    title: "Identificar formas - Avanzado",
+    description: "Reconoce la forma mostrada",
+    category: "visual",
+    difficulty: "medium",
+    type: "identify-shapes",
+    data: {
+      shape: "estrella",
+      shapeEmoji: "⭐",
+      options: ["círculo", "cuadrado", "estrella", "corazón"],
+    },
+  },
+  {
+    id: "vis-5",
+    title: "Encontrar diferencias - Emojis",
+    description: "Encuentra el que es diferente",
+    category: "visual",
+    difficulty: "easy",
+    type: "find-difference",
+    data: {
+      items: ["🍎", "🍎", "🍌", "🍎"],
+      differentIndex: 2,
+    },
+  },
+  {
+    id: "vis-6",
+    title: "Encontrar diferencias - Colores",
+    description: "¿Cuál no es igual?",
+    category: "visual",
+    difficulty: "medium",
+    type: "find-difference",
+    data: {
+      items: ["azul", "azul", "rojo", "azul"],
+      colors: ["#4A90D9", "#4A90D9", "#E86B6B", "#4A90D9"],
+      differentIndex: 2,
+    },
+  },
+  {
+    id: "vis-7",
+    title: "Asociar - Fruta con palabra",
+    description: "Une la imagen con su nombre",
+    category: "visual",
+    difficulty: "easy",
+    type: "match-image-word",
+    data: {
+      pairs: [
+        { image: "🍎", word: "manzana" },
+        { image: "🍌", word: "banana" },
+        { image: "🍊", word: "naranja" },
+      ],
+    },
+  },
+  {
+    id: "vis-8",
+    title: "Asociar - Animal con palabra",
+    description: "Relaciona cada animal con su nombre",
+    category: "visual",
+    difficulty: "medium",
+    type: "match-image-word",
+    data: {
+      pairs: [
+        { image: "🐶", word: "perro" },
+        { image: "🐱", word: "gato" },
+        { image: "🐰", word: "conejo" },
+        { image: "🐻", word: "oso" },
+      ],
+    },
+  },
+  {
+    id: "vis-9",
+    title: "Asociar - Objetos",
+    description: "Relaciona imagen con palabra",
+    category: "visual",
+    difficulty: "medium",
+    type: "match-image-word",
+    data: {
+      pairs: [
+        { image: "🏠", word: "casa" },
+        { image: "🚗", word: "auto" },
+        { image: "🌳", word: "árbol" },
+        { image: "☀️", word: "sol" },
+      ],
+    },
+  },
+];

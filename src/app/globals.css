@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #f5a623;
+  --color-primary-dark: #e0941a;
+  --color-soft-blue: #4A90D9;
+  --color-soft-green: #5CB85C;
+  --color-soft-purple: #9B59B6;
+  --color-soft-coral: #E86B6B;
+  --color-bg: #fef9f0;
+  --color-card: #ffffff;
+  --color-text: #2c3e50;
+  --color-text-muted: #5a6c7d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #fef9f0 0%, #fff5e6 100%);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-8 py-4 text-xl font-bold rounded-2xl transition-all duration-200;
+    @apply bg-primary-500 text-white shadow-lg hover:bg-primary-600;
+    @apply active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary-400/50;
+    min-height: 56px;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 text-lg font-semibold rounded-xl transition-all;
+    @apply bg-white border-2 border-primary-500 text-primary-700;
+    @apply hover:bg-primary-50 active:scale-95;
+    min-height: 48px;
+  }
+
+  .card-activity {
+    @apply p-6 rounded-2xl shadow-lg bg-white transition-all;
+    @apply hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .input-accessible {
+    @apply text-2xl p-4 rounded-xl border-2 border-gray-200;
+    @apply focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200;
+    min-height: 56px;
+  }
+}

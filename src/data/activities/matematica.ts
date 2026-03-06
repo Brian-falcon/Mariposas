@@ -1,0 +1,118 @@
+import { Activity } from "@/types";
+
+export const matematicaActivities: Activity[] = [
+  {
+    id: "mat-1",
+    title: "Contar objetos - Manzanas",
+    description: "¿Cuántas manzanas hay?",
+    category: "matematica",
+    difficulty: "easy",
+    type: "count-objects",
+    data: {
+      items: ["🍎", "🍎", "🍎"],
+      answer: 3,
+    },
+  },
+  {
+    id: "mat-2",
+    title: "Contar objetos - Estrellas",
+    description: "Cuenta las estrellas",
+    category: "matematica",
+    difficulty: "easy",
+    type: "count-objects",
+    data: {
+      items: ["⭐", "⭐", "⭐", "⭐", "⭐"],
+      answer: 5,
+    },
+  },
+  {
+    id: "mat-3",
+    title: "Contar objetos - Más cantidad",
+    description: "¿Cuántos hay en total?",
+    category: "matematica",
+    difficulty: "medium",
+    type: "count-objects",
+    data: {
+      items: ["🐶", "🐶", "🐶", "🐶", "🐶", "🐶", "🐶"],
+      answer: 7,
+    },
+  },
+  {
+    id: "mat-4",
+    title: "Sumar con imágenes",
+    description: "Suma los objetos",
+    category: "matematica",
+    difficulty: "easy",
+    type: "add-images",
+    data: {
+      group1: ["🍎", "🍎"],
+      group2: ["🍎", "🍎", "🍎"],
+      answer: 5,
+    },
+  },
+  {
+    id: "mat-5",
+    title: "Sumar con imágenes - Más",
+    description: "¿Cuánto es en total?",
+    category: "matematica",
+    difficulty: "medium",
+    type: "add-images",
+    data: {
+      group1: ["⭐", "⭐", "⭐"],
+      group2: ["⭐", "⭐"],
+      answer: 5,
+    },
+  },
+  {
+    id: "mat-6",
+    title: "Restas simples",
+    description: "Resta los objetos",
+    category: "matematica",
+    difficulty: "easy",
+    type: "subtract-images",
+    data: {
+      total: ["🍊", "🍊", "🍊", "🍊"],
+      subtract: ["🍊"],
+      answer: 3,
+    },
+  },
+  {
+    id: "mat-7",
+    title: "Restas - Nivel medio",
+    description: "¿Cuántos quedan?",
+    category: "matematica",
+    difficulty: "medium",
+    type: "subtract-images",
+    data: {
+      total: ["⭐", "⭐", "⭐", "⭐", "⭐"],
+      subtract: ["⭐", "⭐"],
+      answer: 3,
+    },
+  },
+  {
+    id: "mat-8",
+    title: "Elegir número correcto",
+    description: "Selecciona el número que corresponde",
+    category: "matematica",
+    difficulty: "easy",
+    type: "choose-number",
+    data: {
+      items: ["🍎", "🍎", "🍎", "🍎"],
+      correctAnswer: 4,
+      options: [2, 3, 4, 5],
+    },
+  },
+  {
+    id: "mat-9",
+    title: "Elegir número - Avanzado",
+    description: "¿Cuántos objetos hay?",
+    category: "matematica",
+    difficulty: "medium",
+    type: "choose-number",
+    data: {
+      items: ["🐱", "🐱", "🐱", "🐱", "🐱", "🐱"],
+      correctAnswer: 6,
+      options: [4, 5, 6, 7],
+    },
+  },
+];
