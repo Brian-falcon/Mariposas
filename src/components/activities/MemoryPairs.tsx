@@ -13,7 +13,7 @@ export function MemoryPairs({ activity }: { activity: Activity }) {
     if (flipped.length === 2) {
       const [a, b] = flipped;
       if (cards[a] === cards[b]) {
-        setMatched([...matched, a, b]);
+        setMatched((m) => [...m, a, b]);
         setFlipped([]);
       } else {
         const timer = setTimeout(() => setFlipped([]), 1000);

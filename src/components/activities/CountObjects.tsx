@@ -10,7 +10,7 @@ export function CountObjects({ activity }: { activity: Activity }) {
   const options = [data.answer - 1, data.answer, data.answer + 1].filter(
     (n) => n >= 0
   );
-  const uniqueOptions = [...new Set(options)].sort((a, b) => a - b);
+  const uniqueOptions = Array.from(new Set(options)).sort((a, b) => a - b);
 
   if (selected === data.answer) {
     return (

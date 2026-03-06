@@ -13,8 +13,8 @@ export function FollowSequence({ activity }: { activity: Activity }) {
   const [result, setResult] = useState<boolean | null>(null);
 
   const options = data.colors
-    ? [...new Set(data.pattern.map((p, i) => data.colors![data.pattern.indexOf(p)]))]
-    : [...new Set(data.pattern)];
+    ? Array.from(new Set(data.pattern.map((p) => data.colors![data.pattern.indexOf(p)])))
+    : Array.from(new Set(data.pattern));
 
   if (result !== null) {
     return (
