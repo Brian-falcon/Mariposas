@@ -154,9 +154,9 @@ export function WordSearch({ activity }: { activity: Activity }) {
       </div>
 
       <div
-        className={`w-full mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl ${
-          difficulty === "easy" ? "max-w-[min(95vw,360px)]" :
-          difficulty === "medium" ? "max-w-[min(95vw,420px)]" :
+        className={`w-full mx-auto aspect-square grid gap-1 md:gap-1.5 p-4 md:p-6 rounded-xl md:rounded-2xl ${
+          difficulty === "easy" ? "max-w-[min(95vw,500px)]" :
+          difficulty === "medium" ? "max-w-[min(95vw,520px)]" :
           "max-w-[min(95vw,500px)]"
         }`}
         style={{
