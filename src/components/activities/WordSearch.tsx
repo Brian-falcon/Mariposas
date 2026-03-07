@@ -3,25 +3,49 @@
 import { useState, useMemo } from "react";
 import { Activity } from "@/types";
 
-const DIRECTIONS = [
+const ALL_DIRECTIONS = [
   { dr: 0, dc: 1 }, { dr: 1, dc: 0 }, { dr: 1, dc: 1 }, { dr: 1, dc: -1 },
   { dr: 0, dc: -1 }, { dr: -1, dc: 0 }, { dr: -1, dc: -1 }, { dr: -1, dc: 1 },
 ];
 
+const HORIZONTAL_VERTICAL = [
+  { dr: 0, dc: 1 }, { dr: 1, dc: 0 }, { dr: 0, dc: -1 }, { dr: -1, dc: 0 },
+];
+
 const FILLER = "AEIOURTLMNSP";
 
-function generateGrid(words: string[], size: number): { grid: string[][]; positions: { word: string; positions: [number, number][] }[] } {
+type Difficulty = "easy" | "medium" | "hard";
+
+const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS; wordCount: number }> = {
+  easy: { gridSize: 10, directions: HORIZONTAL_VERTICAL, wordCount: 5 },
+  medium: { gridSize: 14, directions: ALL_DIRECTIONS, wordCount: 8 },
+  hard: { gridSize: 18, directions: ALL_DIRECTIONS, wordCount: 14 },
+};
+
+function generateGrid(
+  words: string[],
+  difficulty: Difficulty
+): { grid: string[][]; positions: { word: string; positions: [number, number][] }[] } {
+  const config = DIFFICULTY_CONFIG[difficulty];
+  const size = config.gridSize;
+  const directions = config.directions;
+
+  const allWords = words.map((w) => w.replace(/\s/g, "").toUpperCase()).filter((w) => w.length >= 2);
+  const wordCount = Math.min(config.wordCount, allWords.length);
+  const selectedWords = [...new Set(allWords)]
+    .sort((a, b) => a.length - b.length)
+    .slice(0, wordCount);
+
   const grid: string[][] = Array(size).fill(null).map(() => Array(size).fill(""));
   const positions: { word: string; positions: [number, number][] }[] = [];
-  const cleanWords = [...new Set(words.map((w) => w.replace(/\s/g, "").toUpperCase()).filter((w) => w.length >= 2))];
+  const cleanWords = [...selectedWords].sort((a, b) => b.length - a.length);
 
-  for (const word of cleanWords.sort((a, b) => b.length - a.length)) {
+  for (const word of cleanWords) {
     let placed = false;
-    const tries = [...Array(800)].map((_, i) => i);
-    for (const _ of tries) {
+    for (let attempt = 0; attempt < 800 && !placed; attempt++) {
       const r = Math.floor(Math.random() * size);
       const c = Math.floor(Math.random() * size);
-      const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+      const dir = directions[Math.floor(Math.random() * directions.length)];
       const pos: [number, number][] = [];
       let ok = true;
       for (let i = 0; i < word.length; i++) {
@@ -34,7 +58,6 @@ function generateGrid(words: string[], size: number): { grid: string[][]; positi
         pos.forEach(([rr, cc], i) => { grid[rr][cc] = word[i]; });
         positions.push({ word, positions: pos });
         placed = true;
-        break;
       }
     }
   }
@@ -48,8 +71,13 @@ function generateGrid(words: string[], size: number): { grid: string[][]; positi
 }
 
 export function WordSearch({ activity }: { activity: Activity }) {
-  const words = ((activity.data as { words?: string[] }).words || []);
-  const { grid, positions } = useMemo(() => generateGrid(words, 18), [words.join(",")]);
+  const data = activity.data as { words?: string[]; difficulty?: Difficulty };
+  const words = data.words || [];
+  const difficulty = (activity.difficulty || data.difficulty || "hard") as Difficulty;
+  const { grid, positions } = useMemo(
+    () => generateGrid(words, difficulty),
+    [words.join(","), difficulty]
+  );
 
   const [found, setFound] = useState<Set<string>>(new Set());
   const [start, setStart] = useState<[number, number] | null>(null);
@@ -102,9 +130,16 @@ export function WordSearch({ activity }: { activity: Activity }) {
         <h3 className="text-xl md:text-2xl font-bold text-primary-700 mb-2">
           Sopa de letras
         </h3>
-        <p className="text-sm md:text-base text-gray-600">
+        <p className="text-sm md:text-base text-gray-600 mb-1">
           Haz clic en la primera letra y luego en la última letra de cada nombre
         </p>
+        <span className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${
+          difficulty === "easy" ? "bg-green-100 text-green-800" :
+          difficulty === "medium" ? "bg-yellow-100 text-yellow-800" :
+          "bg-orange-100 text-orange-800"
+        }`}>
+          {difficulty === "easy" ? "Fácil" : difficulty === "medium" ? "Medio" : "Difícil"}
+        </span>
       </div>
 
       <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-4 md:mb-5 p-3 md:p-4 bg-white/80 rounded-xl">
@@ -123,7 +158,11 @@ export function WordSearch({ activity }: { activity: Activity }) {
       </div>
 
       <div
-        className="w-full max-w-[min(95vw,480px)] mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl"
+        className={`w-full mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl ${
+          difficulty === "easy" ? "max-w-[min(95vw,320px)]" :
+          difficulty === "medium" ? "max-w-[min(95vw,400px)]" :
+          "max-w-[min(95vw,480px)]"
+        }`}
         style={{
           background: "linear-gradient(145deg, #fef3e2 0%, #fde4c0 50%, #fbd49a 100%)",
           boxShadow: "0 8px 32px rgba(245,166,35,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",

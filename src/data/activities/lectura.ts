@@ -66,10 +66,32 @@ export const lecturaActivities: Activity[] = [
   },
   {
     id: "lec-4",
-    title: "Sopa de letras - Nombres",
-    description: "Busca los nombres de tus compañeros en la sopa de letras",
+    title: "Sopa de letras - Fácil",
+    description: "Busca 5 nombres en una sopa pequeña. Solo horizontal y vertical.",
+    category: "lectura",
+    difficulty: "easy",
+    type: "word-search",
+    data: {
+      words: ["LOLA", "MARTINA", "FACUNDO", "MARIA", "ELENA", "LUZ", "CECILIA", "NOEL", "PABLO", "CAROLINA", "VALENTINA", "SANTIAGO", "FEDERICO", "MILAGROS"],
+    },
+  },
+  {
+    id: "lec-5",
+    title: "Sopa de letras - Medio",
+    description: "Busca 8 nombres. Incluye palabras en diagonal.",
     category: "lectura",
     difficulty: "medium",
+    type: "word-search",
+    data: {
+      words: ["LOLA", "MARTINA", "FACUNDO", "MARIA", "ELENA", "LUZ", "CECILIA", "NOEL", "PABLO", "CAROLINA", "VALENTINA", "SANTIAGO", "FEDERICO", "MILAGROS"],
+    },
+  },
+  {
+    id: "lec-6",
+    title: "Sopa de letras - Difícil",
+    description: "Busca los 14 nombres. Todas las direcciones.",
+    category: "lectura",
+    difficulty: "hard",
     type: "word-search",
     data: {
       words: ["LOLA", "MARTINA", "FACUNDO", "MARIA", "ELENA", "LUZ", "CECILIA", "NOEL", "PABLO", "CAROLINA", "VALENTINA", "SANTIAGO", "FEDERICO", "MILAGROS"],
