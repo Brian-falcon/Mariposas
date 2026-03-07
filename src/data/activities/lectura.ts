@@ -67,7 +67,7 @@ export const lecturaActivities: Activity[] = [
   {
     id: "lec-4",
     title: "Sopa de letras - Fácil",
-    description: "Busca los 14 nombres. Solo horizontal y vertical (más fácil de encontrar).",
+    description: "Busca los 14 nombres. Sopa chica con pocas letras alrededor.",
     category: "lectura",
     difficulty: "easy",
     type: "word-search",
@@ -78,7 +78,7 @@ export const lecturaActivities: Activity[] = [
   {
     id: "lec-5",
     title: "Sopa de letras - Medio",
-    description: "Busca los 14 nombres. Incluye palabras en diagonal.",
+    description: "Busca los 14 nombres. Sopa mediana con más letras.",
     category: "lectura",
     difficulty: "medium",
     type: "word-search",
@@ -89,7 +89,7 @@ export const lecturaActivities: Activity[] = [
   {
     id: "lec-6",
     title: "Sopa de letras - Difícil",
-    description: "Busca los 14 nombres. Todas las direcciones (el desafío completo).",
+    description: "Busca los 14 nombres. Sopa grande con muchas letras alrededor.",
     category: "lectura",
     difficulty: "hard",
     type: "word-search",

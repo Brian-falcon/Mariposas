@@ -17,9 +17,9 @@ const FILLER = "AEIOURTLMNSP";
 type Difficulty = "easy" | "medium" | "hard";
 
 const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS }> = {
-  easy: { gridSize: 20, directions: HORIZONTAL_VERTICAL },
-  medium: { gridSize: 19, directions: ALL_DIRECTIONS },
-  hard: { gridSize: 18, directions: ALL_DIRECTIONS },
+  easy: { gridSize: 16, directions: HORIZONTAL_VERTICAL },
+  medium: { gridSize: 18, directions: ALL_DIRECTIONS },
+  hard: { gridSize: 22, directions: ALL_DIRECTIONS },
 };
 
 function generateGrid(
@@ -154,7 +154,11 @@ export function WordSearch({ activity }: { activity: Activity }) {
       </div>
 
       <div
-        className="w-full max-w-[min(95vw,480px)] mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl"
+        className={`w-full mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl ${
+          difficulty === "easy" ? "max-w-[min(95vw,360px)]" :
+          difficulty === "medium" ? "max-w-[min(95vw,420px)]" :
+          "max-w-[min(95vw,500px)]"
+        }`}
         style={{
           background: "linear-gradient(145deg, #fef3e2 0%, #fde4c0 50%, #fbd49a 100%)",
           boxShadow: "0 8px 32px rgba(245,166,35,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",
