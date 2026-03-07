@@ -2,18 +2,6 @@ import Link from "next/link";
 import { categories } from "@/data/categories";
 import { allActivities } from "@/data/activities";
 
-const difficultyLabels = {
-  easy: "Fácil",
-  medium: "Medio",
-  hard: "Difícil",
-};
-
-const difficultyColors = {
-  easy: "bg-green-100 text-green-800",
-  medium: "bg-yellow-100 text-yellow-800",
-  hard: "bg-orange-100 text-orange-800",
-};
-
 export default function HomePage() {
   const totalActivities = allActivities.length;
 
@@ -49,26 +37,6 @@ export default function HomePage() {
           );
         })}
       </div>
-
-      <section className="mt-12 p-6 bg-white rounded-2xl shadow">
-        <h2 className="text-2xl font-bold mb-4">Todas las actividades</h2>
-        <div className="flex flex-wrap gap-2">
-          {allActivities.map((act) => (
-            <Link
-              key={act.id}
-              href={`/actividad/${act.id}`}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-50 hover:bg-primary-100"
-            >
-              <span>{act.title}</span>
-              <span
-                className={`text-xs px-2 py-0.5 rounded-full ${difficultyColors[act.difficulty]}`}
-              >
-                {difficultyLabels[act.difficulty]}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
