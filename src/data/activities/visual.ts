@@ -127,4 +127,101 @@ export const visualActivities: Activity[] = [
       ],
     },
   },
+  // Más reconocer colores
+  {
+    id: "vis-10",
+    title: "Reconocer colores - Azul",
+    description: "¿Qué color es este?",
+    category: "visual",
+    difficulty: "easy",
+    type: "recognize-colors",
+    data: {
+      targetColor: "azul",
+      colorHex: "#4A90D9",
+      options: ["azul", "rojo", "verde", "amarillo"],
+      colorOptions: ["#4A90D9", "#E86B6B", "#5CB85C", "#F5A623"],
+    },
+  },
+  {
+    id: "vis-11",
+    title: "Reconocer colores - Verde",
+    description: "Identifica el color",
+    category: "visual",
+    difficulty: "easy",
+    type: "recognize-colors",
+    data: {
+      targetColor: "verde",
+      colorHex: "#5CB85C",
+      options: ["rojo", "azul", "verde", "naranja"],
+      colorOptions: ["#E86B6B", "#4A90D9", "#5CB85C", "#F5A623"],
+    },
+  },
+  // Más identificar formas
+  {
+    id: "vis-12",
+    title: "Identificar formas - Cuadrado",
+    description: "¿Qué forma es?",
+    category: "visual",
+    difficulty: "easy",
+    type: "identify-shapes",
+    data: {
+      shape: "cuadrado",
+      shapeEmoji: "⬛",
+      options: ["círculo", "cuadrado", "triángulo"],
+    },
+  },
+  {
+    id: "vis-13",
+    title: "Identificar formas - Triángulo",
+    description: "Reconoce la forma",
+    category: "visual",
+    difficulty: "easy",
+    type: "identify-shapes",
+    data: {
+      shape: "triángulo",
+      shapeEmoji: "🔺",
+      options: ["círculo", "cuadrado", "triángulo"],
+    },
+  },
+  // Más encontrar diferencias
+  {
+    id: "vis-14",
+    title: "Encontrar diferencias - Animales",
+    description: "¿Cuál es diferente?",
+    category: "visual",
+    difficulty: "easy",
+    type: "find-difference",
+    data: {
+      items: ["🐶", "🐶", "🐱", "🐶"],
+      differentIndex: 2,
+    },
+  },
+  {
+    id: "vis-15",
+    title: "Encontrar diferencias - Frutas",
+    description: "Encuentra el que no es igual",
+    category: "visual",
+    difficulty: "easy",
+    type: "find-difference",
+    data: {
+      items: ["🍌", "🍌", "🍌", "🍎"],
+      differentIndex: 3,
+    },
+  },
+  // Más asociar
+  {
+    id: "vis-16",
+    title: "Asociar - Colores y objetos",
+    description: "Une cada color con su nombre",
+    category: "visual",
+    difficulty: "easy",
+    type: "match-image-word",
+    data: {
+      pairs: [
+        { image: "🔴", word: "rojo" },
+        { image: "🔵", word: "azul" },
+        { image: "🟢", word: "verde" },
+      ],
+    },
+  },
 ];

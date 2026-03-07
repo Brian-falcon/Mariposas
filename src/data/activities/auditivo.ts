@@ -53,4 +53,31 @@ export const auditivoActivities: Activity[] = [
       emojis: ["🔔", "🥁", "🎵", "🎸"],
     },
   },
+  // Más reconocer sonidos
+  {
+    id: "aud-5",
+    title: "Reconocer sonidos - Gato",
+    description: "¿Qué animal hace este sonido?",
+    category: "auditivo",
+    difficulty: "easy",
+    type: "recognize-sound",
+    data: {
+      soundType: "gato",
+      options: ["perro", "gato", "vaca", "pájaro"],
+      emojis: ["🐶", "🐱", "🐮", "🐦"],
+    },
+  },
+  {
+    id: "aud-6",
+    title: "Reconocer sonidos - Vaca",
+    description: "Escucha y elige el animal",
+    category: "auditivo",
+    difficulty: "easy",
+    type: "recognize-sound",
+    data: {
+      soundType: "vaca",
+      options: ["perro", "gato", "vaca", "oveja"],
+      emojis: ["🐶", "🐱", "🐮", "🐑"],
+    },
+  },
 ];

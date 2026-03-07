@@ -113,4 +113,91 @@ export const lecturaActivities: Activity[] = [
       ],
     },
   },
+  // Más reconocer letras
+  {
+    id: "lec-9",
+    title: "Reconocer letras - P",
+    description: "Encuentra la letra P",
+    category: "lectura",
+    difficulty: "easy",
+    type: "recognize-letters",
+    data: {
+      targetLetter: "P",
+      options: ["P", "R", "B", "D"],
+    },
+  },
+  {
+    id: "lec-10",
+    title: "Reconocer letras - L",
+    description: "Selecciona la letra L",
+    category: "lectura",
+    difficulty: "easy",
+    type: "recognize-letters",
+    data: {
+      targetLetter: "L",
+      options: ["I", "L", "T", "J"],
+    },
+  },
+  // Más completar palabras
+  {
+    id: "lec-11",
+    title: "Completar palabras - LUNA",
+    description: "Completa la palabra",
+    category: "lectura",
+    difficulty: "easy",
+    type: "complete-word",
+    data: {
+      word: "LUNA",
+      missingLetterIndex: 0,
+      hint: "_UNA",
+      options: ["L", "M", "N", "P"],
+    },
+  },
+  {
+    id: "lec-12",
+    title: "Completar palabras - GATO",
+    description: "¿Qué letra falta?",
+    category: "lectura",
+    difficulty: "easy",
+    type: "complete-word",
+    data: {
+      word: "GATO",
+      missingLetterIndex: 0,
+      hint: "_ATO",
+      options: ["G", "P", "R", "C"],
+    },
+  },
+  // Más unir palabra con imagen
+  {
+    id: "lec-13",
+    title: "Unir palabra con imagen - PERRO",
+    description: "Elige la imagen correcta",
+    category: "lectura",
+    difficulty: "easy",
+    type: "match-word-image",
+    data: {
+      word: "PERRO",
+      options: [
+        { image: "🐶", correct: true },
+        { image: "🐱", correct: false },
+        { image: "🐰", correct: false },
+      ],
+    },
+  },
+  {
+    id: "lec-14",
+    title: "Unir palabra con imagen - MANZANA",
+    description: "Relaciona la palabra con la imagen",
+    category: "lectura",
+    difficulty: "easy",
+    type: "match-word-image",
+    data: {
+      word: "MANZANA",
+      options: [
+        { image: "🍎", correct: true },
+        { image: "🍌", correct: false },
+        { image: "🍊", correct: false },
+      ],
+    },
+  },
 ];
