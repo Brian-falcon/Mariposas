@@ -119,7 +119,11 @@ export async function getProgressReport() {
   }
 }
 
-export function verifyTeacherPassword(password: string): boolean {
-  const secret = process.env.TEACHER_PASSWORD || "mariposas2024";
-  return password === secret;
+export function verifyTeacherCredentials(email: string, password: string): boolean {
+  const expectedEmail = process.env.TEACHER_EMAIL?.trim().toLowerCase() || "";
+  const expectedPassword = process.env.TEACHER_PASSWORD || "";
+  if (!expectedEmail || !expectedPassword) return false;
+  return (
+    email?.trim().toLowerCase() === expectedEmail && password === expectedPassword
+  );
 }

@@ -30,6 +30,7 @@ type StudentData = {
 };
 
 export default function ProfesorPage() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState("");
@@ -45,7 +46,7 @@ export default function ProfesorPage() {
       const res = await fetch("/api/teacher", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ email, password }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -85,15 +86,24 @@ export default function ProfesorPage() {
               Panel del profesor
             </h1>
             <p className="text-gray-600 mb-6">
-              Ingresa la contraseña para ver el progreso de los alumnos
+              Ingresa tu correo y contraseña para ver el progreso de los alumnos
             </p>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Correo electrónico"
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary-500 focus:outline-none mb-3"
+              autoComplete="email"
+              autoFocus
+            />
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Contraseña"
               className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary-500 focus:outline-none mb-4"
-              autoFocus
+              autoComplete="current-password"
             />
             {error && (
               <p className="text-red-600 text-sm mb-4">{error}</p>
