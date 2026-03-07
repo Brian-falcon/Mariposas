@@ -37,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const s = JSON.parse(stored) as Student;
         setStudent(s);
+        document.cookie = "mariposas_session=1; path=/; max-age=2592000"; // mantener cookie en sync
       } catch {
         localStorage.removeItem("mariposas_student");
       }
@@ -44,14 +45,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
+  const setSessionCookie = (active: boolean) => {
+    if (typeof document === "undefined") return;
+    if (active) {
+      document.cookie = "mariposas_session=1; path=/; max-age=2592000"; // 30 días
+    } else {
+      document.cookie = "mariposas_session=; path=/; max-age=0";
+    }
+  };
+
   const login = (s: Student) => {
     setStudent(s);
     localStorage.setItem("mariposas_student", JSON.stringify(s));
+    setSessionCookie(true);
   };
 
   const logout = () => {
     setStudent(null);
     localStorage.removeItem("mariposas_student");
+    setSessionCookie(false);
   };
 
   const recordActivityComplete = async (data: {
