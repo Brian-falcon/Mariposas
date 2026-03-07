@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { categories } from "@/data/categories";
 import { getActivitiesByCategory } from "@/data/activities";
 
+export function generateStaticParams() {
+  return categories.map((c) => ({ id: c.id }));
+}
+
 const difficultyLabels = {
   easy: "Fácil",
   medium: "Medio",

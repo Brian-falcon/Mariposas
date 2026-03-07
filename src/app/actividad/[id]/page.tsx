@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getActivityById } from "@/data/activities";
+import { getActivityById, allActivities } from "@/data/activities";
 import { categories } from "@/data/categories";
 import { ActivityRunner } from "@/components/activities/ActivityRunner";
+
+export function generateStaticParams() {
+  return allActivities.map((a) => ({ id: a.id }));
+}
 
 const difficultyLabels = {
   easy: "Fácil",
