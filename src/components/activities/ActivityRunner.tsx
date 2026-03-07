@@ -25,6 +25,7 @@ import { AssociationGame } from "./AssociationGame";
 import { WordSearch } from "./WordSearch";
 import { Crossword } from "./Crossword";
 import { ColoringGame } from "./ColoringGame";
+import { MandalaColoring } from "./MandalaColoring";
 import { ShieldPuzzle } from "./ShieldPuzzle";
 import { EmojiPuzzle } from "./EmojiPuzzle";
 
@@ -53,6 +54,7 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "word-search": WordSearch,
   "crossword": Crossword,
   "coloring": ColoringGame,
+  "mandala-coloring": MandalaColoring,
   "shield-puzzle": ShieldPuzzle,
   "emoji-puzzle": EmojiPuzzle,
 };
