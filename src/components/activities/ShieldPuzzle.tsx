@@ -53,8 +53,18 @@ export function ShieldPuzzle({ activity }: { activity: Activity }) {
 
   if (correct) {
     return (
-      <div className="text-center py-12">
-        <p className="text-3xl md:text-4xl mb-4">¡Escudo de {name} completo! 🏆</p>
+      <div className="p-4 sm:p-6 md:p-8 text-center">
+        <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-700 mb-4 md:mb-6">
+          ¡Escudo de {name} completo! 🏆
+        </p>
+        <div className="flex justify-center mb-4 md:mb-6">
+          <img
+            src={imageSrc}
+            alt={`Escudo de ${name} armado`}
+            className="max-w-[240px] xs:max-w-[280px] sm:max-w-[320px] md:max-w-[400px] w-full h-auto rounded-xl shadow-lg"
+          />
+        </div>
+        <p className="text-lg md:text-xl text-gray-600">¡Lo armaste muy bien!</p>
       </div>
     );
   }

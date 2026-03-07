@@ -35,8 +35,23 @@ export function EmojiPuzzle({ activity }: { activity: Activity }) {
 
   if (correct) {
     return (
-      <div className="text-center py-8 md:py-12">
-        <p className="text-2xl md:text-4xl mb-4">¡Puzzle completado! 🎉</p>
+      <div className="p-4 md:p-6 text-center">
+        <p className="text-2xl md:text-4xl font-bold text-primary-700 mb-4 md:mb-6">¡Puzzle completado! 🎉</p>
+        <div
+          className="grid gap-2 md:gap-3 mx-auto max-w-[200px] xs:max-w-[260px] sm:max-w-[320px] mb-4 md:mb-6"
+          style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+        >
+          {Array.from({ length: count }, (_, i) => (
+            <div
+              key={i}
+              className="aspect-square min-h-[50px] md:min-h-[70px] flex items-center justify-center text-3xl md:text-5xl rounded-xl border-2 border-primary-300"
+              style={{ backgroundColor: "var(--color-soft-blue, #e8f4f8)" }}
+            >
+              {emoji}
+            </div>
+          ))}
+        </div>
+        <p className="text-lg text-gray-600">¡Lo armaste muy bien!</p>
       </div>
     );
   }

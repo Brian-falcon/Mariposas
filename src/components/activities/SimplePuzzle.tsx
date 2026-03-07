@@ -28,15 +28,29 @@ export function SimplePuzzle({ activity }: { activity: Activity }) {
   };
 
   const correct = order.every((v, idx) => v === idx);
+  const size = Math.ceil(Math.sqrt(data.pieces));
   if (correct) {
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">¡Puzzle completo! 🎉</p>
+      <div className="p-6 text-center">
+        <p className="text-2xl md:text-4xl font-bold text-primary-700 mb-4 md:mb-6">¡Puzzle completo! 🎉</p>
+        <div
+          className="grid gap-2 md:gap-3 mx-auto max-w-[200px] sm:max-w-[280px] mb-4 md:mb-6"
+          style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+        >
+          {Array.from({ length: data.pieces }, (_, i) => (
+            <div
+              key={i}
+              className="aspect-square text-4xl md:text-6xl flex items-center justify-center rounded-xl bg-primary-100 border-2 border-primary-300"
+            >
+              {data.image}
+            </div>
+          ))}
+        </div>
+        <p className="text-lg text-gray-600">¡Lo armaste muy bien!</p>
       </div>
     );
   }
 
-  const size = Math.ceil(Math.sqrt(data.pieces));
   return (
     <div className="p-6">
       <p className="text-xl text-center mb-6">
