@@ -5,7 +5,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AuthGuard } from "@/components/AuthGuard";
-import { InstallPwaBanner } from "@/components/InstallPwaBanner";
 import { RegisterServiceWorker } from "@/components/RegisterServiceWorker";
 
 const nunito = Nunito({
@@ -47,7 +46,6 @@ export default function RootLayout({
       <body className={`${nunito.className} min-h-screen flex flex-col`}>
         <RegisterServiceWorker />
         <AuthProvider>
-          <InstallPwaBanner />
           <Header />
           <main className="flex-1">
           <AuthGuard>{children}</AuthGuard>

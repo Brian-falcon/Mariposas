@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { InstallPwaButton } from "@/components/InstallPwaButton";
 
 export function Header() {
   const { student, logout } = useAuth();
@@ -23,7 +24,8 @@ export function Header() {
             <p className="text-xs sm:text-sm text-gray-600">Aprendiendo jugando</p>
           </div>
         </Link>
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <InstallPwaButton />
           <Link
             href="/profesor"
             className="text-sm text-primary-600 hover:underline font-medium"
