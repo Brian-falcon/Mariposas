@@ -18,7 +18,7 @@ type Difficulty = "easy" | "medium" | "hard";
 
 const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS }> = {
   easy: { gridSize: 20, directions: HORIZONTAL_VERTICAL },
-  medium: { gridSize: 18, directions: ALL_DIRECTIONS },
+  medium: { gridSize: 19, directions: ALL_DIRECTIONS },
   hard: { gridSize: 18, directions: ALL_DIRECTIONS },
 };
 
