@@ -15,6 +15,11 @@ export const lecturaActivities: Activity[] = [
         { targetLetter: "S", options: ["S", "Z", "C", "F"] },
         { targetLetter: "P", options: ["P", "R", "B", "D"] },
         { targetLetter: "L", options: ["I", "L", "T", "J"] },
+        { targetLetter: "E", options: ["E", "A", "O", "I"] },
+        { targetLetter: "O", options: ["O", "U", "A", "E"] },
+        { targetLetter: "R", options: ["R", "P", "B", "D"] },
+        { targetLetter: "T", options: ["T", "L", "F", "P"] },
+        { targetLetter: "N", options: ["N", "M", "U", "H"] },
       ],
     },
   },
@@ -31,6 +36,11 @@ export const lecturaActivities: Activity[] = [
         { word: "SOL", missingLetterIndex: 2, hint: "SO_", options: ["L", "R", "N", "M"] },
         { word: "LUNA", missingLetterIndex: 0, hint: "_UNA", options: ["L", "M", "N", "P"] },
         { word: "GATO", missingLetterIndex: 0, hint: "_ATO", options: ["G", "P", "R", "C"] },
+        { word: "CASA", missingLetterIndex: 1, hint: "C_SA", options: ["A", "O", "E", "I"] },
+        { word: "PATO", missingLetterIndex: 0, hint: "_ATO", options: ["P", "G", "R", "M"] },
+        { word: "LOTO", missingLetterIndex: 2, hint: "LO_O", options: ["T", "P", "S", "R"] },
+        { word: "ROSA", missingLetterIndex: 3, hint: "ROS_", options: ["A", "O", "E", "I"] },
+        { word: "PANO", missingLetterIndex: 1, hint: "P_NO", options: ["A", "E", "I", "O"] },
       ],
     },
   },
@@ -43,47 +53,26 @@ export const lecturaActivities: Activity[] = [
     type: "match-word-image",
     data: {
       rounds: [
-        {
-          word: "GATO",
-          options: [
-            { image: "🐱", correct: true },
-            { image: "🐶", correct: false },
-            { image: "🐰", correct: false },
-          ],
-        },
-        {
-          word: "CASA",
-          options: [
-            { image: "🏠", correct: true },
-            { image: "🚗", correct: false },
-            { image: "🌳", correct: false },
-          ],
-        },
-        {
-          word: "PERRO",
-          options: [
-            { image: "🐶", correct: true },
-            { image: "🐱", correct: false },
-            { image: "🐰", correct: false },
-          ],
-        },
-        {
-          word: "MANZANA",
-          options: [
-            { image: "🍎", correct: true },
-            { image: "🍌", correct: false },
-            { image: "🍊", correct: false },
-          ],
-        },
-        {
-          word: "LÁPIZ",
-          options: [
-            { image: "✏️", correct: true },
-            { image: "📕", correct: false },
-            { image: "✂️", correct: false },
-          ],
-        },
+        { word: "GATO", options: [{ image: "🐱", correct: true }, { image: "🐶", correct: false }, { image: "🐰", correct: false }] },
+        { word: "CASA", options: [{ image: "🏠", correct: true }, { image: "🚗", correct: false }, { image: "🌳", correct: false }] },
+        { word: "PERRO", options: [{ image: "🐶", correct: true }, { image: "🐱", correct: false }, { image: "🐰", correct: false }] },
+        { word: "MANZANA", options: [{ image: "🍎", correct: true }, { image: "🍌", correct: false }, { image: "🍊", correct: false }] },
+        { word: "LÁPIZ", options: [{ image: "✏️", correct: true }, { image: "📕", correct: false }, { image: "✂️", correct: false }] },
+        { word: "SOL", options: [{ image: "☀️", correct: true }, { image: "🌙", correct: false }, { image: "⭐", correct: false }] },
+        { word: "FLOR", options: [{ image: "🌸", correct: true }, { image: "🌳", correct: false }, { image: "🍎", correct: false }] },
+        { word: "AUTO", options: [{ image: "🚗", correct: true }, { image: "✈️", correct: false }, { image: "🚢", correct: false }] },
       ],
+    },
+  },
+  {
+    id: "lec-4",
+    title: "Sopa de letras - Nombres",
+    description: "Busca los nombres de tus compañeros en la sopa de letras",
+    category: "lectura",
+    difficulty: "medium",
+    type: "word-search",
+    data: {
+      words: ["LOLA", "MARTINA", "FACUNDO", "MARIA", "ELENA", "LUZ", "CECILIA", "NOEL", "PABLO", "CAROLINA", "VALENTINA", "SANTIAGO", "FEDERICO", "MILAGROS"],
     },
   },
 ];

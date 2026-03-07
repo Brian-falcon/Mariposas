@@ -22,6 +22,7 @@ import { OrderObjects } from "./OrderObjects";
 import { FollowSequence } from "./FollowSequence";
 import { SimplePuzzle } from "./SimplePuzzle";
 import { AssociationGame } from "./AssociationGame";
+import { WordSearch } from "./WordSearch";
 
 const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> = {
   "memorize-images": MemorizeImages,
@@ -45,6 +46,7 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "follow-sequence": FollowSequence,
   "simple-puzzle": SimplePuzzle,
   "association-game": AssociationGame,
+  "word-search": WordSearch,
 };
 
 interface ActivityRunnerProps {
