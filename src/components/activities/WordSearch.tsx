@@ -94,22 +94,24 @@ export function WordSearch({ activity }: { activity: Activity }) {
     );
   }
 
+  const gridSize = grid[0]?.length || 18;
+
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <div className="text-center mb-6">
-        <h3 className="text-2xl font-bold text-primary-700 mb-2">
+    <div className="p-4 md:p-6 w-full max-w-2xl mx-auto">
+      <div className="text-center mb-4 md:mb-5">
+        <h3 className="text-xl md:text-2xl font-bold text-primary-700 mb-2">
           Sopa de letras
         </h3>
-        <p className="text-gray-600">
+        <p className="text-sm md:text-base text-gray-600">
           Haz clic en la primera letra y luego en la última letra de cada nombre
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-2 mb-6 p-4 bg-white/80 rounded-xl">
+      <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-4 md:mb-5 p-3 md:p-4 bg-white/80 rounded-xl">
         {positions.map((p) => (
           <span
             key={p.word}
-            className={`px-4 py-2 rounded-xl font-bold text-lg transition-all ${
+            className={`px-2.5 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl font-bold text-sm md:text-lg transition-all ${
               found.has(p.word)
                 ? "bg-emerald-500 text-white line-through opacity-90"
                 : "bg-primary-100 text-primary-800 shadow-sm"
@@ -121,11 +123,12 @@ export function WordSearch({ activity }: { activity: Activity }) {
       </div>
 
       <div
-        className="inline-grid gap-1 p-6 rounded-2xl mx-auto"
+        className="w-full max-w-[min(95vw,480px)] mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl"
         style={{
           background: "linear-gradient(145deg, #fef3e2 0%, #fde4c0 50%, #fbd49a 100%)",
           boxShadow: "0 8px 32px rgba(245,166,35,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",
-          gridTemplateColumns: `repeat(${grid[0]?.length || 0}, 1fr)`,
+          gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${gridSize}, minmax(0, 1fr))`,
         }}
       >
         {grid.map((row, r) =>
@@ -134,13 +137,13 @@ export function WordSearch({ activity }: { activity: Activity }) {
               key={`${r}-${c}`}
               onClick={() => onClick(r, c)}
               className={`
-                w-11 h-11 flex items-center justify-center text-xl font-black rounded-lg
+                min-w-0 aspect-square flex items-center justify-center text-sm sm:text-base md:text-lg font-black rounded
                 transition-all duration-200 select-none
                 ${isFound(r, c)
-                  ? "bg-emerald-500 text-white shadow-lg scale-105"
+                  ? "bg-emerald-500 text-white shadow-lg"
                   : isSelected(r, c)
-                  ? "bg-primary-500 text-white ring-4 ring-primary-300 shadow-lg"
-                  : "bg-white/90 hover:bg-primary-100 text-gray-800 shadow-md hover:scale-105"
+                  ? "bg-primary-500 text-white ring-2 md:ring-4 ring-primary-300 shadow-lg"
+                  : "bg-white/90 hover:bg-primary-100 text-gray-800 shadow-sm hover:shadow-md"
                 }
               `}
             >
@@ -150,7 +153,7 @@ export function WordSearch({ activity }: { activity: Activity }) {
         )}
       </div>
 
-      <p className="text-center mt-4 text-lg font-semibold text-gray-600">
+      <p className="text-center mt-4 text-base md:text-lg font-semibold text-gray-600">
         Encontrados: <span className="text-primary-600">{found.size}</span> de {positions.length}
       </p>
 
