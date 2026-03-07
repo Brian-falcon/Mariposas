@@ -32,18 +32,15 @@ export function TraceNumber({ activity }: { activity: Activity }) {
   const isLast = currentIndex >= numbers.length - 1;
 
   useEffect(() => {
-    if (allVisited && !showSuccess) {
-      setShowSuccess(true);
-      const t = setTimeout(() => {
-        if (currentIndex < numbers.length - 1) {
-          setCurrentIndex((c) => c + 1);
-          setVisited(new Set());
-          setShowSuccess(false);
-        }
-      }, 1200);
-      return () => clearTimeout(t);
-    }
-  }, [allVisited, showSuccess, currentIndex, numbers.length]);
+    if (!allVisited) return;
+    setShowSuccess(true);
+    const t = setTimeout(() => {
+      setCurrentIndex((c) => (c < numbers.length - 1 ? c + 1 : c));
+      setVisited(new Set());
+      setShowSuccess(false);
+    }, 1200);
+    return () => clearTimeout(t);
+  }, [allVisited, numbers.length]);
 
   const getPosition = useCallback((e: React.MouseEvent | React.Touch) => {
     const rect = containerRef.current?.getBoundingClientRect();
