@@ -17,7 +17,7 @@ const FILLER = "AEIOURTLMNSP";
 type Difficulty = "easy" | "medium" | "hard";
 
 const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS }> = {
-  easy: { gridSize: 16, directions: HORIZONTAL_VERTICAL },
+  easy: { gridSize: 17, directions: HORIZONTAL_VERTICAL },
   medium: { gridSize: 18, directions: ALL_DIRECTIONS },
   hard: { gridSize: 22, directions: ALL_DIRECTIONS },
 };
