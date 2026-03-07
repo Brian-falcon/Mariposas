@@ -27,15 +27,17 @@ export const juegosActivities: Activity[] = [
   },
   {
     id: "jue-3",
-    title: "Asociación - Familia",
-    description: "Agrupa lo que va junto",
+    title: "Asociación - Familia y más",
+    description: "Agrupa lo que va junto en cada ejercicio",
     category: "juegos",
     difficulty: "easy",
     type: "association-game",
     data: {
-      groups: [
-        { items: ["👨", "👩", "👶"], name: "familia" },
-        { items: ["🐶", "🐱", "🐰"], name: "animales" },
+      rounds: [
+        { groups: [{ items: ["👨", "👩", "👶"], name: "familia" }, { items: ["🐶", "🐱", "🐰"], name: "animales" }] },
+        { groups: [{ items: ["🍎", "🍊", "🍌"], name: "frutas" }, { items: ["🥕", "🥦", "🍅"], name: "vegetales" }] },
+        { groups: [{ items: ["🚗", "🚌", "🚕"], name: "transporte" }, { items: ["🐶", "🐱", "🐦"], name: "animales" }] },
+        { groups: [{ items: ["🍎", "🍇", "🍓"], name: "frutas" }, { items: ["🥕", "🥬", "🌽"], name: "verduras" }] },
       ],
     },
   },
@@ -47,9 +49,10 @@ export const juegosActivities: Activity[] = [
     difficulty: "medium",
     type: "association-game",
     data: {
-      groups: [
-        { items: ["🍎", "🍊", "🍌"], name: "frutas" },
-        { items: ["🥕", "🥦", "🍅"], name: "vegetales" },
+      rounds: [
+        { groups: [{ items: ["🍎", "🍊", "🍌"], name: "frutas" }, { items: ["🥕", "🥦", "🍅"], name: "vegetales" }] },
+        { groups: [{ items: ["🍞", "🥐", "🥖"], name: "pan" }, { items: ["🥛", "🧃", "☕"], name: "bebidas" }] },
+        { groups: [{ items: ["🍕", "🌭", "🍔"], name: "comida rápida" }, { items: ["🥗", "🥒", "🥬"], name: "ensalada" }] },
       ],
     },
   },
@@ -114,32 +117,31 @@ export const juegosActivities: Activity[] = [
       image: "⭐",
     },
   },
-  // Más asociación
   {
     id: "jue-10",
-    title: "Asociación - Transporte",
-    description: "Agrupa los medios de transporte",
+    title: "Asociación - Transporte y animales",
+    description: "Agrupa en cada ejercicio",
     category: "juegos",
     difficulty: "easy",
     type: "association-game",
     data: {
-      groups: [
-        { items: ["🚗", "🚌", "🚕"], name: "transporte" },
-        { items: ["🐶", "🐱", "🐦"], name: "animales" },
+      rounds: [
+        { groups: [{ items: ["🚗", "🚌", "🚕"], name: "transporte" }, { items: ["🐶", "🐱", "🐦"], name: "animales" }] },
+        { groups: [{ items: ["✈️", "🚢", "🚂"], name: "transporte" }, { items: ["🌸", "🌻", "🌷"], name: "flores" }] },
       ],
     },
   },
   {
     id: "jue-11",
     title: "Asociación - Frutas vs Verduras",
-    description: "Separa frutas de verduras",
+    description: "Separa frutas de verduras en varios ejercicios",
     category: "juegos",
     difficulty: "medium",
     type: "association-game",
     data: {
-      groups: [
-        { items: ["🍎", "🍇", "🍓"], name: "frutas" },
-        { items: ["🥕", "🥬", "🌽"], name: "verduras" },
+      rounds: [
+        { groups: [{ items: ["🍎", "🍇", "🍓"], name: "frutas" }, { items: ["🥕", "🥬", "🌽"], name: "verduras" }] },
+        { groups: [{ items: ["🍌", "🍑", "🍒"], name: "frutas" }, { items: ["🍅", "🥦", "🥒"], name: "verduras" }] },
       ],
     },
   },
