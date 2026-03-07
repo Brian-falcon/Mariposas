@@ -1,0 +1,69 @@
+"use client";
+
+import { useState } from "react";
+import { Activity } from "@/types";
+
+type EmojiPuzzleData = {
+  pieces: number;
+  image: string;
+};
+
+export function EmojiPuzzle({ activity }: { activity: Activity }) {
+  const data = activity.data as EmojiPuzzleData;
+  const count = data.pieces || 4;
+  const emoji = data.image || "🧩";
+  const size = Math.ceil(Math.sqrt(count));
+  const [order, setOrder] = useState(
+    Array.from({ length: count }, (_, i) => i).sort(() => Math.random() - 0.5)
+  );
+  const [lastClicked, setLastClicked] = useState<number | null>(null);
+
+  const swap = (i: number, j: number) => {
+    const newOrder = [...order];
+    [newOrder[i], newOrder[j]] = [newOrder[j], newOrder[i]];
+    setOrder(newOrder);
+    setLastClicked(null);
+  };
+
+  const handleClick = (idx: number) => {
+    if (lastClicked === null) setLastClicked(idx);
+    else {
+      swap(lastClicked, idx);
+    }
+  };
+
+  const correct = order.every((v, i) => v === i);
+
+  if (correct) {
+    return (
+      <div className="text-center py-8 md:py-12">
+        <p className="text-2xl md:text-4xl mb-4">¡Puzzle completado! 🎉</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-4 md:p-6">
+      <p className="text-lg md:text-xl text-center mb-4 md:mb-6">
+        Ordena las piezas (toca dos para intercambiar)
+      </p>
+      <div
+        className="grid gap-1.5 sm:gap-2 md:gap-3 mx-auto max-w-[200px] xs:max-w-[260px] sm:max-w-[300px] md:max-w-[360px]"
+        style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+      >
+        {order.map((pieceIdx, i) => (
+          <button
+            key={i}
+            onClick={() => handleClick(i)}
+            className={`aspect-square rounded-lg md:rounded-xl transition-all min-h-[50px] xs:min-h-[60px] sm:min-h-[70px] md:min-h-[90px] flex items-center justify-center text-2xl xs:text-3xl sm:text-4xl md:text-5xl ${
+              lastClicked === i ? "ring-4 ring-primary-500 scale-105" : ""
+            }`}
+            style={{ backgroundColor: "var(--color-soft-blue, #e8f4f8)" }}
+          >
+            {emoji}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}

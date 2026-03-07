@@ -97,4 +97,95 @@ export const lecturaActivities: Activity[] = [
       words: ["LOLA", "MARTINA", "FACUNDO", "MARIA", "ELENA", "LUZ", "CECILIA", "NOEL", "PABLO", "CAROLINA", "VALENTINA", "SANTIAGO", "FEDERICO", "MILAGROS"],
     },
   },
+  // Crucigramas
+  {
+    id: "lec-7",
+    title: "Crucigrama - Animales",
+    description: "Completa las palabras de animales",
+    category: "lectura",
+    difficulty: "easy",
+    type: "crossword",
+    data: {
+      words: [
+        { word: "GATO", clue: "Animal que maúlla" },
+        { word: "OSO", clue: "Animal grande y peludo" },
+        { word: "SAL", clue: "Lo que echas a la comida" },
+      ],
+    },
+  },
+  {
+    id: "lec-8",
+    title: "Crucigrama - Familia",
+    description: "Completa las palabras de familia",
+    category: "lectura",
+    difficulty: "easy",
+    type: "crossword",
+    data: {
+      words: [
+        { word: "MAMA", clue: "Tu mamá" },
+        { word: "PAPA", clue: "Tu papá" },
+        { word: "AMOR", clue: "Cariño" },
+      ],
+    },
+  },
+  {
+    id: "lec-9",
+    title: "Crucigrama - Frutas",
+    description: "Completa las palabras de frutas",
+    category: "lectura",
+    difficulty: "medium",
+    type: "crossword",
+    data: {
+      words: [
+        { word: "MANZANA", clue: "Fruta roja o verde" },
+        { word: "BANANA", clue: "Fruta amarilla larga" },
+        { word: "NARANJA", clue: "Fruta naranja redonda" },
+      ],
+    },
+  },
+  {
+    id: "lec-10",
+    title: "Crucigrama - Colores",
+    description: "Completa los nombres de colores",
+    category: "lectura",
+    difficulty: "easy",
+    type: "crossword",
+    data: {
+      words: [
+        { word: "ROJO", clue: "Color de la sangre" },
+        { word: "AZUL", clue: "Color del cielo" },
+        { word: "VERDE", clue: "Color del pasto" },
+      ],
+    },
+  },
+  {
+    id: "lec-11",
+    title: "Crucigrama - Números",
+    description: "Completa los nombres de números",
+    category: "lectura",
+    difficulty: "easy",
+    type: "crossword",
+    data: {
+      words: [
+        { word: "UNO", clue: "Primer número" },
+        { word: "DOS", clue: "Segundo número" },
+        { word: "TRES", clue: "Tercer número" },
+      ],
+    },
+  },
+  {
+    id: "lec-12",
+    title: "Crucigrama - Días",
+    description: "Completa los días de la semana",
+    category: "lectura",
+    difficulty: "medium",
+    type: "crossword",
+    data: {
+      words: [
+        { word: "LUNES", clue: "Primer día laboral" },
+        { word: "MARTES", clue: "Segundo día laboral" },
+        { word: "VIERNES", clue: "Último día laboral" },
+      ],
+    },
+  },
 ];

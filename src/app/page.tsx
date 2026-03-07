@@ -18,12 +18,12 @@ export default function HomePage() {
   const totalActivities = allActivities.length;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-4">
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 py-5 sm:py-8">
+      <section className="text-center mb-8 sm:mb-12">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary-700 mb-3 sm:mb-4">
           ¡Bienvenido a Mariposas! 🦋
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
           Plataforma educativa con{" "}
           <span className="font-bold text-primary-600">{totalActivities} actividades</span>{" "}
           para aprender jugando. Elige una categoría para comenzar.

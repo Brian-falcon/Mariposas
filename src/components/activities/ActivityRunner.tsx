@@ -23,6 +23,10 @@ import { FollowSequence } from "./FollowSequence";
 import { SimplePuzzle } from "./SimplePuzzle";
 import { AssociationGame } from "./AssociationGame";
 import { WordSearch } from "./WordSearch";
+import { Crossword } from "./Crossword";
+import { ColoringGame } from "./ColoringGame";
+import { ShieldPuzzle } from "./ShieldPuzzle";
+import { EmojiPuzzle } from "./EmojiPuzzle";
 
 const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> = {
   "memorize-images": MemorizeImages,
@@ -47,6 +51,10 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "simple-puzzle": SimplePuzzle,
   "association-game": AssociationGame,
   "word-search": WordSearch,
+  "crossword": Crossword,
+  "coloring": ColoringGame,
+  "shield-puzzle": ShieldPuzzle,
+  "emoji-puzzle": EmojiPuzzle,
 };
 
 interface ActivityRunnerProps {

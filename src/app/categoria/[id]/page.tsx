@@ -31,23 +31,23 @@ export default function CategoryPage({
   if (!category) notFound();
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 py-5 sm:py-8">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-primary-600 hover:underline mb-6"
+        className="inline-flex items-center gap-2 text-primary-600 hover:underline mb-4 sm:mb-6 py-2 touch-manipulation"
       >
         ← Volver al inicio
       </Link>
 
-      <div className="flex items-center gap-4 mb-8">
-        <span className="text-6xl">{category.icon}</span>
+      <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <span className="text-5xl sm:text-6xl">{category.icon}</span>
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">{category.name}</h1>
-          <p className="text-gray-600">{category.description}</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{category.name}</h1>
+          <p className="text-gray-600 text-sm sm:text-base">{category.description}</p>
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {activities.map((act) => (
           <Link
             key={act.id}

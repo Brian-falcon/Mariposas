@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
@@ -13,6 +13,13 @@ export const metadata: Metadata = {
   title: "Mariposas - Aprendiendo jugando",
   description:
     "Plataforma educativa interactiva para personas con discapacidades cognitivas",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 };
 
 export default function RootLayout({
