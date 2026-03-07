@@ -25,12 +25,10 @@ export function ActivityReportProvider({
 }) {
   const { recordActivityComplete, student } = useAuth();
   const startedAt = useRef(Date.now());
-  const reported = useRef(false);
 
   const reportComplete = useCallback(
     (opts?: { correct?: boolean; score?: number }) => {
-      if (!student || reported.current) return;
-      reported.current = true;
+      if (!student) return;
       recordActivityComplete({
         activityId,
         activityTitle,

@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type GroupRound = { groups: { items: string[]; name: string }[] };
 
 export function AssociationGame({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as GroupRound & { rounds?: GroupRound[] };
   const rounds: GroupRound[] = data.rounds ?? [{ groups: data.groups }];
   const [currentRound, setCurrentRound] = useState(0);
@@ -20,6 +23,12 @@ export function AssociationGame({ activity }: { activity: Activity }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [groupSelected, setGroupSelected] = useState<string | null>(null);
   const [result, setResult] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (result !== null && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
 
   const handleItemClick = (item: string, group: string) => {
     if (result !== null) return;
@@ -56,30 +65,13 @@ export function AssociationGame({ activity }: { activity: Activity }) {
   if (result !== null) {
     const isLast = currentRound >= rounds.length - 1;
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Muy bien agrupado! 🎉" : "Intenta de nuevo"}</p>
-        {result && !isLast && (
-          <button
-            onClick={handleNext}
-            className="mt-4 px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Siguiente →
-          </button>
-        )}
-        {result && isLast && <p className="text-lg text-gray-600">¡Completaste todas!</p>}
-        {!result && (
-          <button
-            onClick={() => {
-              setResult(null);
-              setSelected([]);
-              setGroupSelected(null);
-            }}
-            className="mt-4 px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Intentar de nuevo
-          </button>
-        )}
-      </div>
+      <ActivityFeedback
+        correct={result}
+        correctMessage="¡Muy bien agrupado! 🎉"
+        onRetry={!result ? () => { setResult(null); setSelected([]); setGroupSelected(null); } : undefined}
+        onNext={result && !isLast ? handleNext : undefined}
+        isLast={result && isLast}
+      />
     );
   }
 

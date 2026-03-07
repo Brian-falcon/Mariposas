@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 export function FollowSequence({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as {
     pattern: string[];
     colors?: string[];
@@ -12,15 +15,22 @@ export function FollowSequence({ activity }: { activity: Activity }) {
   };
   const [result, setResult] = useState<boolean | null>(null);
 
+  useEffect(() => {
+    if (result !== null) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, report]);
+
   const options = data.colors
     ? Array.from(new Set(data.pattern.map((p) => data.colors![data.pattern.indexOf(p)])))
     : Array.from(new Set(data.pattern));
 
   if (result !== null) {
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Correcto! 🎉" : "Intenta de nuevo"}</p>
-      </div>
+      <ActivityFeedback
+        correct={result}
+        onRetry={!result ? () => setResult(null) : undefined}
+      />
     );
   }
 

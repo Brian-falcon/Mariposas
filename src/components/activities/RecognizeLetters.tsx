@@ -1,17 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { targetLetter: string; options: string[] };
 
 export function RecognizeLetters({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as Round & { rounds?: Round[] };
   const rounds: Round[] = data.rounds ?? [data];
   const [currentRound, setCurrentRound] = useState(0);
   const [result, setResult] = useState<boolean | null>(null);
 
   const round = rounds[currentRound];
+
+  useEffect(() => {
+    if (result !== null && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
+
   if (!round) return null;
 
   const handleNext = () => {
@@ -22,19 +32,13 @@ export function RecognizeLetters({ activity }: { activity: Activity }) {
   if (result !== null) {
     const isLast = currentRound >= rounds.length - 1;
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Correcto! 🎉" : "Intenta de nuevo"}</p>
-        <p className="text-xl mb-6">{result ? "Muy bien" : `La letra es: ${round.targetLetter}`}</p>
-        {result && !isLast && (
-          <button
-            onClick={handleNext}
-            className="px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Siguiente →
-          </button>
-        )}
-        {result && isLast && <p className="text-lg text-gray-600">¡Completaste todas!</p>}
-      </div>
+      <ActivityFeedback
+        correct={result}
+        message={!result ? `La letra correcta es: ${round.targetLetter}` : undefined}
+        onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && !isLast ? handleNext : undefined}
+        isLast={result && isLast}
+      />
     );
   }
 

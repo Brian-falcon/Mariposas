@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
 import { playSound, stopSound } from "@/lib/sounds";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type SoundRound = {
   soundType: string;
@@ -19,8 +21,14 @@ export function RecognizeSound({ activity }: { activity: Activity }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const round = rounds[currentRound];
+  const report = useActivityReport();
 
   useEffect(() => () => stopSound(), [activity.id]);
+  useEffect(() => {
+    if (result !== null && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
 
   const handlePlay = () => {
     if (!round) return;
@@ -39,27 +47,13 @@ export function RecognizeSound({ activity }: { activity: Activity }) {
   if (result !== null) {
     const isLast = currentRound >= rounds.length - 1;
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Correcto! 🎉" : "Intenta de nuevo"}</p>
-        <p className="text-xl mb-6">{!result && `Es el sonido de: ${round.soundType}`}</p>
-        {result && !isLast && (
-          <button
-            onClick={handleNext}
-            className="px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Siguiente →
-          </button>
-        )}
-        {result && isLast && <p className="text-lg text-gray-600">¡Completaste todas!</p>}
-        {!result && (
-          <button
-            onClick={() => setResult(null)}
-            className="mt-4 px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Intentar de nuevo
-          </button>
-        )}
-      </div>
+      <ActivityFeedback
+        correct={result}
+        message={!result ? `Es el sonido de: ${round.soundType}` : undefined}
+        onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && !isLast ? handleNext : undefined}
+        isLast={result && isLast}
+      />
     );
   }
 

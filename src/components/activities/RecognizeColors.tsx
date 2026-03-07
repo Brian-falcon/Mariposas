@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
 import { useActivityReport } from "@/context/ActivityReportContext";
+import { ActivityFeedback } from "./ActivityFeedback";
 
 type Round = { targetColor: string; colorHex: string; options: string[]; colorOptions: string[] };
 
@@ -14,7 +15,7 @@ export function RecognizeColors({ activity }: { activity: Activity }) {
   const [result, setResult] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (result && currentRound >= rounds.length - 1) {
+    if (result !== null && currentRound >= rounds.length - 1) {
       report?.reportComplete({ correct: result });
     }
   }, [result, currentRound, rounds.length, report]);
@@ -30,20 +31,13 @@ export function RecognizeColors({ activity }: { activity: Activity }) {
   if (result !== null) {
     const isLast = currentRound >= rounds.length - 1;
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Correcto! 🎉" : "Intenta de nuevo"}</p>
-        <p className="text-xl mb-6">{result ? "Muy bien" : `El color es: ${round.targetColor}`}</p>
-        {!result ? null : isLast ? (
-          <p className="text-lg text-gray-600">¡Completaste todas!</p>
-        ) : (
-          <button
-            onClick={handleNext}
-            className="px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Siguiente →
-          </button>
-        )}
-      </div>
+      <ActivityFeedback
+        correct={result}
+        message={!result ? `El color correcto es: ${round.targetColor}` : undefined}
+        onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && !isLast ? handleNext : undefined}
+        isLast={result && isLast}
+      />
     );
   }
 

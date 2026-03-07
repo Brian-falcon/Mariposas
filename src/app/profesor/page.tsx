@@ -127,22 +127,31 @@ export default function ProfesorPage() {
       </h1>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {data?.summary?.map((s) => (
-          <div
-            key={s.studentId}
-            className="bg-white rounded-xl shadow p-4 border border-gray-200"
-          >
-            <h3 className="font-bold text-lg text-gray-800 mb-2">{s.studentName}</h3>
-            <p className="text-gray-600 text-sm">
-              Actividades completadas: {s.completed} / {s.total}
-            </p>
-            {s.avgScore != null && (
-              <p className="text-primary-600 font-semibold mt-1">
-                Promedio: {s.avgScore}%
+        {data?.summary?.map((s) => {
+          const studentData = data?.students?.find((st) => st.name === s.studentName);
+          const failed = studentData?.activities?.filter((a) => a.correct === false).length ?? 0;
+          return (
+            <div
+              key={s.studentId}
+              className="bg-white rounded-xl shadow p-4 border border-gray-200"
+            >
+              <h3 className="font-bold text-lg text-gray-800 mb-2">{s.studentName}</h3>
+              <p className="text-gray-600 text-sm">
+                Actividades completadas: {s.completed} / {s.total}
               </p>
-            )}
-          </div>
-        ))}
+              {failed > 0 && (
+                <p className="text-red-600 font-semibold mt-1">
+                  Con errores: {failed}
+                </p>
+              )}
+              {s.avgScore != null && (
+                <p className="text-primary-600 font-semibold mt-1">
+                  Promedio: {s.avgScore}%
+                </p>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div className="space-y-8">
@@ -172,7 +181,12 @@ export default function ProfesorPage() {
                     </tr>
                   ) : (
                     s.activities.map((a, i) => (
-                      <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
+                      <tr
+                        key={i}
+                        className={`border-b border-gray-100 hover:bg-gray-50 ${
+                          a.correct === false ? "bg-red-50" : ""
+                        }`}
+                      >
                         <td className="py-3 px-4 font-medium">{a.activity_title}</td>
                         <td className="py-3 px-4 text-gray-600">{a.category}</td>
                         <td className="py-3 px-4">
@@ -187,13 +201,17 @@ export default function ProfesorPage() {
                           </span>
                         </td>
                         <td className="py-3 px-4">
-                          {a.score != null
-                            ? `${a.score}%`
-                            : a.correct != null
-                            ? a.correct
-                              ? "✓"
-                              : "✗"
-                            : "-"}
+                          {a.score != null ? (
+                            `${a.score}%`
+                          ) : a.correct != null ? (
+                            a.correct ? (
+                              <span className="text-green-600 font-bold">✓ Correcto</span>
+                            ) : (
+                              <span className="text-red-600 font-bold">✗ Falló</span>
+                            )
+                          ) : (
+                            "-"
+                          )}
                         </td>
                         <td className="py-3 px-4">
                           {formatTime(a.time_seconds)}

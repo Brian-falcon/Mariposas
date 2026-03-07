@@ -1,17 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { items: string[]; differentIndex: number; colors?: string[] };
 
 export function FindDifference({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as Round & { rounds?: Round[] };
   const rounds: Round[] = data.rounds ?? [data];
   const [currentRound, setCurrentRound] = useState(0);
   const [result, setResult] = useState<boolean | null>(null);
 
   const round = rounds[currentRound];
+
+  useEffect(() => {
+    if (result !== null && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
+
   if (!round) return null;
 
   const handleNext = () => {
@@ -22,18 +32,13 @@ export function FindDifference({ activity }: { activity: Activity }) {
   if (result !== null) {
     const isLast = currentRound >= rounds.length - 1;
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Muy bien! 🎉" : "Intenta de nuevo"}</p>
-        {result && !isLast && (
-          <button
-            onClick={handleNext}
-            className="mt-4 px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Siguiente →
-          </button>
-        )}
-        {result && isLast && <p className="text-lg text-gray-600">¡Completaste todas!</p>}
-      </div>
+      <ActivityFeedback
+        correct={result}
+        correctMessage="¡Muy bien! 🎉"
+        onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && !isLast ? handleNext : undefined}
+        isLast={result && isLast}
+      />
     );
   }
 

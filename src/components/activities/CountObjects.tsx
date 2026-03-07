@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
 import { useActivityReport } from "@/context/ActivityReportContext";
+import { ActivityFeedback } from "./ActivityFeedback";
 
 type Round = { items: string[]; answer: number; label?: string };
 
@@ -36,11 +37,25 @@ export function CountObjects({ activity }: { activity: Activity }) {
     setCurrentRound(currentRound + 1);
   };
 
+  // Respuesta incorrecta: mostrar cruz roja y permitir reintentar
+  if (selected !== null && selected !== round.answer && !showCorrect) {
+    return (
+      <ActivityFeedback
+        correct={false}
+        message={`Hay ${round.answer} elementos. ¡Cuenta de nuevo!`}
+        onRetry={() => setSelected(null)}
+      />
+    );
+  }
+
   if (showCorrect || selected === round.answer) {
     const isLast = currentRound >= rounds.length - 1;
     return (
       <div className="text-center py-12">
-        <p className="text-4xl mb-4">¡Correcto! 🎉</p>
+        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+          <span className="text-5xl text-green-600">✓</span>
+        </div>
+        <p className="text-3xl font-bold text-green-700 mb-4">¡Correcto! 🎉</p>
         <p className="text-xl text-green-600 mb-6">
           Hay {round.answer} elementos
         </p>

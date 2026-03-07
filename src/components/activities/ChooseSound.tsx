@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
 import { playSound, stopSound } from "@/lib/sounds";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type SoundRound = {
   correctSound: string;
@@ -12,6 +14,7 @@ type SoundRound = {
 };
 
 export function ChooseSound({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as SoundRound & { rounds?: SoundRound[] };
   const rounds: SoundRound[] = data.rounds ?? [data];
   const [currentRound, setCurrentRound] = useState(0);
@@ -21,6 +24,11 @@ export function ChooseSound({ activity }: { activity: Activity }) {
   const round = rounds[currentRound];
 
   useEffect(() => () => stopSound(), [activity.id]);
+  useEffect(() => {
+    if (result !== null && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
 
   const handlePlay = () => {
     if (!round) return;
@@ -39,29 +47,13 @@ export function ChooseSound({ activity }: { activity: Activity }) {
   if (result !== null) {
     const isLast = currentRound >= rounds.length - 1;
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Correcto! 🎉" : "Intenta de nuevo"}</p>
-        {!result && (
-          <p className="text-xl text-gray-600 mb-6">Era el sonido de: {round.correctSound}</p>
-        )}
-        {result && !isLast && (
-          <button
-            onClick={handleNext}
-            className="px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Siguiente →
-          </button>
-        )}
-        {result && isLast && <p className="text-lg text-gray-600">¡Completaste todas!</p>}
-        {!result && (
-          <button
-            onClick={() => setResult(null)}
-            className="mt-4 px-8 py-4 text-xl font-bold rounded-xl bg-primary-500 text-white"
-          >
-            Intentar de nuevo
-          </button>
-        )}
-      </div>
+      <ActivityFeedback
+        correct={result}
+        message={!result ? `Era el sonido de: ${round.correctSound}` : undefined}
+        onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && !isLast ? handleNext : undefined}
+        isLast={result && isLast}
+      />
     );
   }
 
