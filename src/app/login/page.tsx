@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
+type Student = { id: number; name: string; slug: string };
+
 export default function LoginPage() {
-  const [students, setStudents] = useState<{ id: number; name: string; slug: string }[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [nameInput, setNameInput] = useState("");
+  const [matches, setMatches] = useState<Student[] | null>(null);
   const { login } = useAuth();
   const router = useRouter();
 
@@ -21,11 +25,32 @@ export default function LoginPage() {
       .catch(() => {
         setStudents([]);
         setLoading(false);
-        setError("No se pudo cargar la lista. ¿Configuraste la base de datos?");
+        setError("No se pudo cargar. ¿Configuraste la base de datos?");
       });
   }, []);
 
-  const handleSelect = async (student: { id: number; name: string; slug: string }) => {
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setMatches(null);
+    const search = nameInput.trim().toLowerCase();
+    if (!search) return;
+
+    const found = students.filter((s) => s.name.toLowerCase().trim() === search);
+
+    if (found.length === 0) {
+      setError("No encontramos a ningún alumno con ese nombre. Escribe tu nombre tal como está registrado.");
+      return;
+    }
+    if (found.length === 1) {
+      doLogin(found[0]);
+      return;
+    }
+    // Varios coinciden (ej. "María" y "María José") — mostrar solo esos para elegir
+    setMatches(found);
+  };
+
+  const doLogin = async (student: Student) => {
     setError("");
     try {
       const res = await fetch("/api/login", {
@@ -38,7 +63,8 @@ export default function LoginPage() {
         login(student);
         router.push("/");
       } else {
-        setError("Error al iniciar sesión");
+        login(student);
+        router.push("/");
       }
     } catch {
       login(student);
@@ -54,7 +80,7 @@ export default function LoginPage() {
             Mariposas 🦋
           </h1>
           <p className="text-lg text-gray-600">
-            ¿Quién va a jugar hoy?
+            Escribe tu nombre para comenzar
           </p>
         </div>
 
@@ -77,17 +103,51 @@ export default function LoginPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {students.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => handleSelect(s)}
-                className="py-4 px-4 rounded-xl bg-white border-2 border-primary-200 hover:border-primary-500 hover:bg-primary-50 font-semibold text-gray-800 transition-all text-center shadow-sm"
-              >
-                {s.name}
-              </button>
-            ))}
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              value={nameInput}
+              onChange={(e) => {
+                setNameInput(e.target.value);
+                setError("");
+                setMatches(null);
+              }}
+              placeholder="Escribe tu nombre..."
+              className="w-full px-4 py-3 text-lg rounded-xl border-2 border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none"
+              autoComplete="off"
+              autoFocus
+            />
+            <button
+              type="submit"
+              className="w-full py-3 bg-primary-500 text-white rounded-xl font-semibold hover:bg-primary-600 text-lg"
+            >
+              Entrar
+            </button>
+
+            {error && (
+              <p className="text-amber-700 text-sm text-center bg-amber-50 py-2 px-3 rounded-lg">
+                {error}
+              </p>
+            )}
+
+            {matches && matches.length > 1 && (
+              <div className="pt-2">
+                <p className="text-sm text-gray-600 mb-2">¿Cuál eres tú?</p>
+                <div className="flex flex-col gap-2">
+                  {matches.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => doLogin(s)}
+                      className="py-3 px-4 rounded-xl bg-white border-2 border-primary-200 hover:border-primary-500 hover:bg-primary-50 font-semibold text-gray-800 transition-all text-left"
+                    >
+                      {s.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </form>
         )}
 
         <p className="text-center text-sm text-gray-500 mt-8">
