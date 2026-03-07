@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 export function DragDrop({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as { pairs: { source: string; target: string }[] };
   const [matched, setMatched] = useState<string[]>([]);
   const [selected, setSelected] = useState<{ source: string; target: string } | null>(null);
@@ -28,6 +30,7 @@ export function DragDrop({ activity }: { activity: Activity }) {
   };
 
   if (matched.length === data.pairs.length) {
+    report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Excelente! 🎉</p>

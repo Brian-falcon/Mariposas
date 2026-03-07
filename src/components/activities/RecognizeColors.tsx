@@ -1,15 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { targetColor: string; colorHex: string; options: string[]; colorOptions: string[] };
 
 export function RecognizeColors({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as Round & { rounds?: Round[] };
   const rounds: Round[] = data.rounds ?? [data];
   const [currentRound, setCurrentRound] = useState(0);
   const [result, setResult] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (result && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
 
   const round = rounds[currentRound];
   if (!round) return null;

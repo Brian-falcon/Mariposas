@@ -46,7 +46,10 @@ export default function ActivityPage({
         <p className="text-gray-600 mb-6">{activity.description}</p>
 
         <div className="min-h-[300px]">
-          <ActivityRunner activity={activity} />
+          <ActivityRunner
+            activity={activity}
+            categoryName={category?.name ?? activity.category}
+          />
         </div>
       </div>
     </div>

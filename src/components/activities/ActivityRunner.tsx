@@ -1,6 +1,7 @@
 "use client";
 
 import { Activity } from "@/types";
+import { ActivityReportProvider } from "@/context/ActivityReportContext";
 import { MemorizeImages } from "./MemorizeImages";
 import { MemoryPairs } from "./MemoryPairs";
 import { RememberSequence } from "./RememberSequence";
@@ -63,9 +64,10 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
 
 interface ActivityRunnerProps {
   activity: Activity;
+  categoryName?: string;
 }
 
-export function ActivityRunner({ activity }: ActivityRunnerProps) {
+export function ActivityRunner({ activity, categoryName = "General" }: ActivityRunnerProps) {
   const Component = componentMap[activity.type];
   if (!Component) {
     return (
@@ -74,5 +76,13 @@ export function ActivityRunner({ activity }: ActivityRunnerProps) {
       </div>
     );
   }
-  return <Component activity={activity} />;
+  return (
+    <ActivityReportProvider
+      activityId={activity.id}
+      activityTitle={activity.title}
+      category={categoryName}
+    >
+      <Component activity={activity} />
+    </ActivityReportProvider>
+  );
 }

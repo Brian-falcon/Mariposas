@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 export function MatchImageWord({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as { pairs: { image: string; word: string }[] };
   const [selected, setSelected] = useState<{ image: string; word: string } | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
@@ -31,6 +33,7 @@ export function MatchImageWord({ activity }: { activity: Activity }) {
   };
 
   if (matched.length === data.pairs.length) {
+    report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Excelente! 🎉</p>

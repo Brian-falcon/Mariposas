@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 export function RememberSequence({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as {
     sequence: string[];
     colors?: string[];
@@ -47,6 +49,7 @@ export function RememberSequence({ activity }: { activity: Activity }) {
   };
 
   if (phase === "success") {
+    report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Perfecto! 🎉</p>

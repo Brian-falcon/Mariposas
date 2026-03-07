@@ -3,6 +3,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { AuthProvider } from "@/context/AuthContext";
+import { AuthGuard } from "@/components/AuthGuard";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -30,9 +32,13 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${nunito.className} min-h-screen flex flex-col`}>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main className="flex-1">
+          <AuthGuard>{children}</AuthGuard>
+        </main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

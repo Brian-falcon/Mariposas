@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { total: string[]; subtract: string[]; answer: number };
 
 export function SubtractImages({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as {
     total?: string[];
     subtract?: string[];
@@ -31,6 +33,7 @@ export function SubtractImages({ activity }: { activity: Activity }) {
 
   if (showCorrect || selected === round.answer) {
     const isLast = currentRound >= rounds.length - 1;
+    if (isLast) report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Correcto! 🎉</p>

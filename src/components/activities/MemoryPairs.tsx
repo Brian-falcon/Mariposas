@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 export function MemoryPairs({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as { pairs: string[]; gridSize: number };
   const cards = useMemo(
     () => [...data.pairs, ...data.pairs].sort(() => Math.random() - 0.5),
@@ -31,6 +33,7 @@ export function MemoryPairs({ activity }: { activity: Activity }) {
   };
 
   if (matched.length === cards.length) {
+    report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Excelente! 🎉</p>

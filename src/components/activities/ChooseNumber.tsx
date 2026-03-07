@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { items: string[]; correctAnswer: number; options: number[]; label?: string };
 
 export function ChooseNumber({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as {
     items?: string[];
     correctAnswer?: number;
@@ -34,6 +36,7 @@ export function ChooseNumber({ activity }: { activity: Activity }) {
 
   if (showCorrect || selected === round.correctAnswer) {
     const isLast = currentRound >= rounds.length - 1;
+    if (isLast) report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Excelente! 🎉</p>

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { group1: string[]; group2: string[]; answer: number };
 
 export function AddImages({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as {
     group1?: string[];
     group2?: string[];
@@ -31,6 +33,7 @@ export function AddImages({ activity }: { activity: Activity }) {
 
   if (showCorrect || selected === round.answer) {
     const isLast = currentRound >= rounds.length - 1;
+    if (isLast) report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Muy bien! 🎉</p>

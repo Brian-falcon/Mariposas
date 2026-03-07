@@ -1,16 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 type Round = { items: string[]; answer: number; label?: string };
 
 export function CountObjects({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as { items?: string[]; answer?: number; rounds?: Round[] };
   const rounds: Round[] = data.rounds ?? (data.items ? [{ items: data.items, answer: data.answer! }] : []);
   const [currentRound, setCurrentRound] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showCorrect, setShowCorrect] = useState(false);
+
+  useEffect(() => {
+    if (showCorrect && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: true });
+    }
+  }, [showCorrect, currentRound, rounds.length, report]);
 
   const round = rounds[currentRound];
   if (!round) return null;

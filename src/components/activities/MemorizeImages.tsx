@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { useActivityReport } from "@/context/ActivityReportContext";
 
 export function MemorizeImages({ activity }: { activity: Activity }) {
+  const report = useActivityReport();
   const data = activity.data as { images: string[]; displayTime: number };
   const [phase, setPhase] = useState<"show" | "guess" | "success">("show");
   const [step, setStep] = useState(0);
@@ -28,6 +30,7 @@ export function MemorizeImages({ activity }: { activity: Activity }) {
   };
 
   if (phase === "success") {
+    report?.reportComplete({ correct: true });
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-4">¡Muy bien! 🎉</p>
