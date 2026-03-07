@@ -16,10 +16,10 @@ const FILLER = "AEIOURTLMNSP";
 
 type Difficulty = "easy" | "medium" | "hard";
 
-const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS; wordCount: number }> = {
-  easy: { gridSize: 10, directions: HORIZONTAL_VERTICAL, wordCount: 5 },
-  medium: { gridSize: 14, directions: ALL_DIRECTIONS, wordCount: 8 },
-  hard: { gridSize: 18, directions: ALL_DIRECTIONS, wordCount: 14 },
+const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS }> = {
+  easy: { gridSize: 20, directions: HORIZONTAL_VERTICAL },
+  medium: { gridSize: 18, directions: ALL_DIRECTIONS },
+  hard: { gridSize: 18, directions: ALL_DIRECTIONS },
 };
 
 function generateGrid(
@@ -31,18 +31,14 @@ function generateGrid(
   const directions = config.directions;
 
   const allWords = words.map((w) => w.replace(/\s/g, "").toUpperCase()).filter((w) => w.length >= 2);
-  const wordCount = Math.min(config.wordCount, allWords.length);
-  const selectedWords = [...new Set(allWords)]
-    .sort((a, b) => a.length - b.length)
-    .slice(0, wordCount);
+  const cleanWords = [...new Set(allWords)].sort((a, b) => b.length - a.length);
 
   const grid: string[][] = Array(size).fill(null).map(() => Array(size).fill(""));
   const positions: { word: string; positions: [number, number][] }[] = [];
-  const cleanWords = [...selectedWords].sort((a, b) => b.length - a.length);
 
   for (const word of cleanWords) {
     let placed = false;
-    for (let attempt = 0; attempt < 800 && !placed; attempt++) {
+    for (let attempt = 0; attempt < 1200 && !placed; attempt++) {
       const r = Math.floor(Math.random() * size);
       const c = Math.floor(Math.random() * size);
       const dir = directions[Math.floor(Math.random() * directions.length)];
@@ -158,11 +154,7 @@ export function WordSearch({ activity }: { activity: Activity }) {
       </div>
 
       <div
-        className={`w-full mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl ${
-          difficulty === "easy" ? "max-w-[min(95vw,320px)]" :
-          difficulty === "medium" ? "max-w-[min(95vw,400px)]" :
-          "max-w-[min(95vw,480px)]"
-        }`}
+        className="w-full max-w-[min(95vw,480px)] mx-auto aspect-square grid gap-0.5 md:gap-1 p-3 md:p-5 rounded-xl md:rounded-2xl"
         style={{
           background: "linear-gradient(145deg, #fef3e2 0%, #fde4c0 50%, #fbd49a 100%)",
           boxShadow: "0 8px 32px rgba(245,166,35,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",
