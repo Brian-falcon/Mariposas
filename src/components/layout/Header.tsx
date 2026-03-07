@@ -23,20 +23,37 @@ export function Header() {
             <p className="text-xs sm:text-sm text-gray-600">Aprendiendo jugando</p>
           </div>
         </Link>
-        {student && student.slug !== "invitado" && (
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600 hidden sm:inline">
-              {student.name}
-            </span>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <Link
+            href="/profesor"
+            className="text-sm text-primary-600 hover:underline font-medium"
+          >
+            Panel del profesor
+          </Link>
+          {student ? (
+            <>
+              {student.slug !== "invitado" && (
+                <span className="text-sm text-gray-600 hidden sm:inline">
+                  {student.name}
+                </span>
+              )}
+              <Link
+                href="/login"
+                onClick={logout}
+                className="text-sm text-primary-600 hover:underline font-medium"
+              >
+                {student.slug === "invitado" ? "Iniciar sesión" : "Cambiar alumno"}
+              </Link>
+            </>
+          ) : (
             <Link
               href="/login"
-              onClick={logout}
               className="text-sm text-primary-600 hover:underline font-medium"
             >
-              Cambiar alumno
+              Iniciar sesión
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );
