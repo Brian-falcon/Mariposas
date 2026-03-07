@@ -20,6 +20,7 @@ import { ChooseSound } from "./ChooseSound";
 import { DragDrop } from "./DragDrop";
 import { OrderObjects } from "./OrderObjects";
 import { FollowSequence } from "./FollowSequence";
+import { TraceNumber } from "./TraceNumber";
 import { SimplePuzzle } from "./SimplePuzzle";
 import { AssociationGame } from "./AssociationGame";
 import { WordSearch } from "./WordSearch";
@@ -49,6 +50,7 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "drag-drop": DragDrop,
   "order-objects": OrderObjects,
   "follow-sequence": FollowSequence,
+  "trace-number": TraceNumber,
   "simple-puzzle": SimplePuzzle,
   "association-game": AssociationGame,
   "word-search": WordSearch,

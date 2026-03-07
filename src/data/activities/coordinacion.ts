@@ -35,6 +35,15 @@ export const coordinacionActivities: Activity[] = [
     },
   },
   {
+    id: "coo-2b",
+    title: "Seguir los puntitos - Números del 0 al 20",
+    description: "Traza cada número siguiendo los puntitos con el mouse o el dedo",
+    category: "coordinacion",
+    difficulty: "easy",
+    type: "trace-number",
+    data: { start: 0, end: 20 },
+  },
+  {
     id: "coo-3",
     title: "Ordenar objetos - Tamaño",
     description: "Ordena de menor a mayor",
