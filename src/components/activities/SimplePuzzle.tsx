@@ -20,6 +20,8 @@ export function SimplePuzzle({ activity }: { activity: Activity }) {
   const handleClick = (i: number) => {
     if (lastClicked === null) {
       setLastClicked(i);
+    } else if (lastClicked === i) {
+      setLastClicked(null);
     } else {
       swap(lastClicked, i);
     }
@@ -48,11 +50,12 @@ export function SimplePuzzle({ activity }: { activity: Activity }) {
           <button
             key={i}
             onClick={() => handleClick(i)}
-            className={`aspect-square text-5xl flex items-center justify-center rounded-xl transition-all ${
-              lastClicked === i ? "ring-4 ring-primary-500 bg-primary-200" : "bg-primary-100 hover:bg-primary-200"
+            className={`aspect-square text-4xl md:text-5xl flex flex-col items-center justify-center rounded-xl transition-all relative ${
+              lastClicked === i ? "ring-4 ring-primary-500 bg-primary-200 scale-105" : "bg-primary-100 hover:bg-primary-200"
             }`}
           >
-            {data.image}
+            <span>{data.image}</span>
+            <span className="text-xs md:text-sm font-bold text-primary-600 mt-0.5">{pieceIdx + 1}</span>
           </button>
         ))}
       </div>

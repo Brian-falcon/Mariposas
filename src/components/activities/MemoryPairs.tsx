@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Activity } from "@/types";
 
 export function MemoryPairs({ activity }: { activity: Activity }) {
   const data = activity.data as { pairs: string[]; gridSize: number };
-  const cards = [...data.pairs, ...data.pairs].sort(() => Math.random() - 0.5);
+  const cards = useMemo(
+    () => [...data.pairs, ...data.pairs].sort(() => Math.random() - 0.5),
+    [data.pairs.join(",")]
+  );
   const [flipped, setFlipped] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
 
@@ -36,12 +39,13 @@ export function MemoryPairs({ activity }: { activity: Activity }) {
     );
   }
 
+  const cols = Math.ceil(Math.sqrt(cards.length));
   return (
-    <div className="p-6">
-      <p className="text-xl text-center mb-6">Encuentra las parejas iguales</p>
+    <div className="p-4 md:p-6">
+      <p className="text-base md:text-xl text-center mb-4 md:mb-6">Encuentra las parejas iguales</p>
       <div
-        className="grid gap-3 mx-auto max-w-md"
-        style={{ gridTemplateColumns: `repeat(${Math.sqrt(data.gridSize)}, 1fr)` }}
+        className="grid gap-2 md:gap-3 mx-auto max-w-md"
+        style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
       >
         {cards.map((card, i) => (
           <button

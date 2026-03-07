@@ -27,9 +27,8 @@ export function EmojiPuzzle({ activity }: { activity: Activity }) {
 
   const handleClick = (idx: number) => {
     if (lastClicked === null) setLastClicked(idx);
-    else {
-      swap(lastClicked, idx);
-    }
+    else if (lastClicked === idx) setLastClicked(null);
+    else swap(lastClicked, idx);
   };
 
   const correct = order.every((v, i) => v === i);
@@ -55,12 +54,13 @@ export function EmojiPuzzle({ activity }: { activity: Activity }) {
           <button
             key={i}
             onClick={() => handleClick(i)}
-            className={`aspect-square rounded-lg md:rounded-xl transition-all min-h-[50px] xs:min-h-[60px] sm:min-h-[70px] md:min-h-[90px] flex items-center justify-center text-2xl xs:text-3xl sm:text-4xl md:text-5xl ${
+            className={`aspect-square rounded-lg md:rounded-xl transition-all min-h-[50px] xs:min-h-[60px] sm:min-h-[70px] md:min-h-[90px] flex flex-col items-center justify-center text-2xl xs:text-3xl sm:text-4xl md:text-5xl ${
               lastClicked === i ? "ring-4 ring-primary-500 scale-105" : ""
             }`}
             style={{ backgroundColor: "var(--color-soft-blue, #e8f4f8)" }}
           >
-            {emoji}
+            <span>{emoji}</span>
+            <span className="text-xs font-bold text-primary-600 mt-0.5">{pieceIdx + 1}</span>
           </button>
         ))}
       </div>

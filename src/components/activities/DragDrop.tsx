@@ -13,22 +13,17 @@ export function DragDrop({ activity }: { activity: Activity }) {
 
   const handleSourceClick = (pair: { source: string; target: string }) => {
     if (matched.includes(pair.target)) return;
-    if (selected?.target === pair.target) {
-      setMatched([...matched, pair.target]);
-      setSelected(null);
-    } else {
-      setSelected(pair);
-    }
+    setSelected((prev) => (prev?.source === pair.source && prev?.target === pair.target ? null : pair));
   };
 
   const handleTargetClick = (target: string) => {
-    const pair = data.pairs.find((p) => p.target === target);
-    if (!pair || matched.includes(target)) return;
-    if (selected?.target === target) {
+    if (matched.includes(target)) return;
+    if (!selected) return;
+    if (selected.target === target) {
       setMatched([...matched, target]);
       setSelected(null);
     } else {
-      setSelected(pair);
+      setSelected(null);
     }
   };
 
