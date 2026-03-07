@@ -17,8 +17,8 @@ const FILLER = "AEIOURTLMNSP";
 type Difficulty = "easy" | "medium" | "hard";
 
 const DIFFICULTY_CONFIG: Record<Difficulty, { gridSize: number; directions: typeof ALL_DIRECTIONS }> = {
-  easy: { gridSize: 14, directions: ALL_DIRECTIONS },
-  medium: { gridSize: 16, directions: ALL_DIRECTIONS },
+  easy: { gridSize: 12, directions: ALL_DIRECTIONS },
+  medium: { gridSize: 14, directions: ALL_DIRECTIONS },
   hard: { gridSize: 22, directions: ALL_DIRECTIONS },
 };
 
@@ -38,7 +38,7 @@ function generateGrid(
 
   for (const word of cleanWords) {
     let placed = false;
-    for (let attempt = 0; attempt < 2000 && !placed; attempt++) {
+    for (let attempt = 0; attempt < 3000 && !placed; attempt++) {
       const r = Math.floor(Math.random() * size);
       const c = Math.floor(Math.random() * size);
       const dir = directions[Math.floor(Math.random() * directions.length)];
