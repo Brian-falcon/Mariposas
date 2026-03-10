@@ -16,6 +16,10 @@ const colorRounds = [
   { targetColor: "morado", colorHex: "#9B59B6", options: ["morado", "rosa", "azul", "verde"], colorOptions: ["#9B59B6", "#E91E8C", "#4A90D9", "#5CB85C"] },
   { targetColor: "naranja", colorHex: "#E67E22", options: ["naranja", "amarillo", "rojo", "verde"], colorOptions: ["#E67E22", "#F5A623", "#E86B6B", "#5CB85C"] },
   { targetColor: "celeste", colorHex: "#00BCD4", options: ["celeste", "azul", "verde", "rosa"], colorOptions: ["#00BCD4", "#4A90D9", "#5CB85C", "#E91E8C"] },
+  { targetColor: "verde", colorHex: "#5CB85C", options: ["verde", "celeste", "azul", "morado"], colorOptions: ["#5CB85C", "#00BCD4", "#4A90D9", "#9B59B6"] },
+  { targetColor: "amarillo", colorHex: "#F5A623", options: ["amarillo", "naranja", "rojo", "verde"], colorOptions: ["#F5A623", "#E67E22", "#E86B6B", "#5CB85C"] },
+  { targetColor: "rojo", colorHex: "#E86B6B", options: ["rojo", "rosa", "naranja", "morado"], colorOptions: ["#E86B6B", "#E91E8C", "#E67E22", "#9B59B6"] },
+  { targetColor: "azul", colorHex: "#4A90D9", options: ["azul", "celeste", "morado", "verde"], colorOptions: ["#4A90D9", "#00BCD4", "#9B59B6", "#5CB85C"] },
 ];
 
 const shapeRounds = [
@@ -31,6 +35,9 @@ const shapeRounds = [
   { shape: "círculo", shapeEmoji: "🔵", options: ["círculo", "cuadrado", "triángulo"] },
   { shape: "cuadrado", shapeEmoji: "🟦", options: ["círculo", "cuadrado", "triángulo"] },
   { shape: "corazón", shapeEmoji: "💖", options: ["círculo", "estrella", "corazón", "triángulo"] },
+  { shape: "triángulo", shapeEmoji: "🔺", options: ["círculo", "cuadrado", "triángulo"] },
+  { shape: "estrella", shapeEmoji: "⭐", options: ["círculo", "cuadrado", "estrella"] },
+  { shape: "círculo", shapeEmoji: "⭕", options: ["círculo", "cuadrado", "triángulo"] },
 ];
 
 const differenceRounds = [
@@ -49,6 +56,15 @@ const differenceRounds = [
   { items: ["🐻", "🦊", "🐻", "🐻"], differentIndex: 1 },
   { items: ["🌷", "🌷", "🌹", "🌷"], differentIndex: 2 },
   { items: ["✏️", "✏️", "✏️", "📕"], differentIndex: 3 },
+  { items: ["🌈", "🌈", "☀️", "🌈"], differentIndex: 2 },
+  { items: ["🐝", "🐞", "🐝", "🐝"], differentIndex: 1 },
+  { items: ["🪑", "🪑", "🪑", "🛋️"], differentIndex: 3 },
+  { items: ["🎵", "🎵", "🥁", "🎵"], differentIndex: 2 },
+  { items: ["👕", "👖", "👕", "👕"], differentIndex: 1 },
+  { items: ["🌴", "🌴", "🌴", "🌳"], differentIndex: 3 },
+  { items: ["🍕", "🍕", "🍔", "🍕"], differentIndex: 2 },
+  { items: ["🪥", "🧴", "🪥", "🪥"], differentIndex: 1 },
+  { items: ["📺", "📺", "📺", "💻"], differentIndex: 3 },
 ];
 
 export const visualActivities: Activity[] = [

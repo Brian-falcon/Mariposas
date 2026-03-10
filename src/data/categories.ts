@@ -50,4 +50,11 @@ export const categories: Category[] = [
     icon: "🎮",
     color: "soft-green",
   },
+  {
+    id: "cognitivo",
+    name: "Estimulación cognitiva",
+    description: "Memoria, atención, lógica, emociones y aprendizaje",
+    icon: "🧩",
+    color: "soft-purple",
+  },
 ];
