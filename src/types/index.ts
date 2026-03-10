@@ -7,8 +7,7 @@ export type CategoryId =
   | "lectura"
   | "auditivo"
   | "coordinacion"
-  | "juegos"
-  | "cognitivo";
+  | "juegos";
 
 export interface Category {
   id: CategoryId;

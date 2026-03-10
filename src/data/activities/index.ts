@@ -6,8 +6,6 @@ import { lecturaActivities } from "./lectura";
 import { auditivoActivities } from "./auditivo";
 import { coordinacionActivities } from "./coordinacion";
 import { juegosActivities } from "./juegos";
-import { cognitivoActivities } from "./cognitivo";
-
 export const allActivities: Activity[] = [
   ...memoriaActivities,
   ...visualActivities,
@@ -16,7 +14,6 @@ export const allActivities: Activity[] = [
   ...auditivoActivities,
   ...coordinacionActivities,
   ...juegosActivities,
-  ...cognitivoActivities,
 ];
 
 export function getActivitiesByCategory(category: string): Activity[] {
