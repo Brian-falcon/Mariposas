@@ -6,13 +6,14 @@ import { useActivityReport } from "@/context/ActivityReportContext";
 
 type ShadowPair = { id: string; shadow: string; color: string };
 
-function ImageDisplay({ src, alt, draggable = false }: { src: string; alt: string; draggable?: boolean }) {
+function ImageDisplay({ src, alt, inDraggable = false }: { src: string; alt: string; inDraggable?: boolean }) {
   return (
     <img
       src={src}
       alt={alt}
-      className="w-full h-full object-contain select-none pointer-events-none"
-      draggable={draggable}
+      className={`w-full h-full object-contain ${inDraggable ? "select-none pointer-events-none" : ""}`}
+      draggable={false}
+      style={inDraggable ? { WebkitUserDrag: "none", userSelect: "none" } as React.CSSProperties : undefined}
     />
   );
 }
@@ -121,11 +122,11 @@ export function MatchImageToShadow({ activity }: { activity: Activity }) {
                 draggable
                 onDragStart={(e) => handleDragStart(e, pair)}
                 onDragEnd={handleDragEnd}
-                className={`aspect-square max-w-[120px] sm:max-w-[140px] mx-auto flex items-center justify-center rounded-xl overflow-hidden cursor-grab active:cursor-grabbing transition-all ${
+                className={`aspect-square max-w-[120px] sm:max-w-[140px] mx-auto flex items-center justify-center rounded-xl overflow-hidden select-none cursor-grab active:cursor-grabbing transition-all ${
                   dragging === pair.id ? "opacity-50 scale-95" : "bg-white shadow-md hover:shadow-lg"
                 }`}
               >
-                <ImageDisplay src={pair.color} alt={pair.id} />
+                <ImageDisplay src={pair.color} alt={pair.id} inDraggable />
               </div>
             ))}
         </div>

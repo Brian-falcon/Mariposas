@@ -6,19 +6,20 @@ import { useActivityReport } from "@/context/ActivityReportContext";
 
 type ImageSlot = { id: string; src: string }; // src: emoji o ruta /images/xxx.png
 
-function ImageOrEmoji({ src, selectNone = false }: { src: string; selectNone?: boolean }) {
+function ImageOrEmoji({ src, inDraggable = false }: { src: string; inDraggable?: boolean }) {
   const isUrl = src.startsWith("/");
   if (isUrl) {
     return (
       <img
         src={src}
         alt=""
-        className={`w-full h-full object-contain ${selectNone ? "select-none pointer-events-none" : ""}`}
+        className={`w-full h-full object-contain ${inDraggable ? "select-none pointer-events-none" : ""}`}
         draggable={false}
+        style={inDraggable ? { WebkitUserDrag: "none", userSelect: "none" } as React.CSSProperties : undefined}
       />
     );
   }
-  return <span className="text-5xl sm:text-6xl md:text-7xl">{src}</span>;
+  return <span className={`block ${inDraggable ? "select-none pointer-events-none" : ""} text-5xl sm:text-6xl md:text-7xl`}>{src}</span>;
 }
 
 export function MatchImageToImage({ activity }: { activity: Activity }) {
@@ -100,7 +101,7 @@ export function MatchImageToImage({ activity }: { activity: Activity }) {
               >
                 {matches[idx] ? (
                   <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
-                    <ImageOrEmoji src={slots[idx].src} selectNone />
+                    <ImageOrEmoji src={slots[idx].src} />
                   </div>
                 ) : (
                   <span className="text-gray-400 text-sm">Suelta aquí</span>
@@ -125,11 +126,11 @@ export function MatchImageToImage({ activity }: { activity: Activity }) {
                 draggable
                 onDragStart={(e) => handleDragStart(e, slot)}
                 onDragEnd={handleDragEnd}
-                className={`aspect-square max-w-[120px] sm:max-w-[140px] mx-auto flex items-center justify-center rounded-xl transition-all cursor-grab active:cursor-grabbing ${
+                className={`aspect-square max-w-[120px] sm:max-w-[140px] mx-auto flex items-center justify-center rounded-xl overflow-hidden transition-all cursor-grab active:cursor-grabbing select-none ${
                   dragging === slot.id ? "opacity-50 scale-95" : "bg-white shadow-md hover:shadow-lg"
                 }`}
               >
-                <ImageOrEmoji src={slot.src} selectNone />
+                <ImageOrEmoji src={slot.src} inDraggable />
               </div>
             ))}
         </div>
