@@ -553,7 +553,7 @@ export const juegosActivities: Activity[] = [
   },
   {
     id: "jue-escudos",
-    title: "Unir escudos - Nacional y Peñarol",
+    title: "Unir escudos - Nacional, Peñarol y Barcelona",
     description: "Une cada escudo con su lugar. Toca la imagen de abajo y luego el recuadro donde va.",
     category: "juegos",
     difficulty: "easy",
@@ -562,6 +562,22 @@ export const juegosActivities: Activity[] = [
       images: [
         { id: "nacional", src: "/images/nacional.png" },
         { id: "penarol", src: "/images/penarol.png" },
+        { id: "barcelona", src: "/images/barcelona.png" },
+      ],
+    },
+  },
+  {
+    id: "jue-unir-sombras",
+    title: "Unir imagen con su sombra",
+    description: "Une cada imagen con su sombra. Avión, caballo y vaca.",
+    category: "juegos",
+    difficulty: "easy",
+    type: "match-image-to-shadow",
+    data: {
+      pairs: [
+        { id: "avion", shadow: "/images/avion_sombra.png", color: "/images/avion.png" },
+        { id: "caballo", shadow: "/images/caballo_sombra.png", color: "/images/caballo.png" },
+        { id: "vaca", shadow: "/images/vaca_sombra.png", color: "/images/vaca.png" },
       ],
     },
   },
