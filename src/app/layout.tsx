@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import { AccessibilityProvider } from "@/context/AccessibilityContext";
 import { AuthGuard } from "@/components/AuthGuard";
 import { RegisterServiceWorker } from "@/components/RegisterServiceWorker";
 
@@ -44,13 +45,21 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Mariposas" />
       </head>
       <body className={`${nunito.className} min-h-screen flex flex-col`}>
+        <a
+          href="#main-content"
+          className="skip-link"
+        >
+          Saltar al contenido principal
+        </a>
         <RegisterServiceWorker />
         <AuthProvider>
+          <AccessibilityProvider>
           <Header />
-          <main className="flex-1">
+          <main id="main-content" className="flex-1" tabIndex={-1}>
           <AuthGuard>{children}</AuthGuard>
         </main>
           <Footer />
+          </AccessibilityProvider>
         </AuthProvider>
       </body>
     </html>

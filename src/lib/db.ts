@@ -119,6 +119,28 @@ export async function getProgressReport() {
   }
 }
 
+export async function getStudentProgress(studentId: number) {
+  if (!sql) return null;
+  try {
+    const rows = await sql`
+      SELECT activity_id, activity_title, category, completed, score, correct
+      FROM progress
+      WHERE student_id = ${studentId}
+      ORDER BY completed_at DESC NULLS LAST
+    `;
+    return rows as {
+      activity_id: string;
+      activity_title: string;
+      category: string;
+      completed: boolean;
+      score: number | null;
+      correct: boolean | null;
+    }[];
+  } catch {
+    return null;
+  }
+}
+
 export function verifyTeacherCredentials(email: string, password: string): boolean {
   const expectedEmail = process.env.TEACHER_EMAIL?.trim().toLowerCase() || "";
   const expectedPassword = process.env.TEACHER_PASSWORD || "";

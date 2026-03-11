@@ -13,6 +13,97 @@
   --color-card: #ffffff;
   --color-text: #2c3e50;
   --color-text-muted: #5a6c7d;
+  --font-scale: 1;
+}
+
+/* Font size scaling */
+html[data-font-size="small"] {
+  --font-scale: 0.9;
+}
+html[data-font-size="medium"] {
+  --font-scale: 1;
+}
+html[data-font-size="large"] {
+  --font-scale: 1.2;
+}
+
+/* High contrast */
+html[data-color-scheme="high-contrast"] {
+  --color-bg: #ffffff;
+  --color-card: #ffffff;
+  --color-text: #000000;
+  --color-text-muted: #333333;
+  --color-primary: #0066cc;
+  --color-primary-dark: #004499;
+}
+html[data-color-scheme="high-contrast"] body {
+  background: #ffffff;
+  color: #000000;
+}
+html[data-color-scheme="high-contrast"] .bg-primary-500,
+html[data-color-scheme="high-contrast"] .bg-primary-600 {
+  background-color: #0066cc !important;
+  color: #ffffff !important;
+  border: 2px solid #000000;
+}
+
+/* Dark mode */
+html[data-color-scheme="dark"] {
+  --color-bg: #1a1a2e;
+  --color-card: #16213e;
+  --color-text: #e8e8e8;
+  --color-text-muted: #a0a0a0;
+  --color-primary: #f5a623;
+}
+html[data-color-scheme="dark"] body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #e8e8e8;
+}
+html[data-color-scheme="dark"] .bg-white {
+  background-color: #16213e !important;
+  border-color: #0f3460 !important;
+}
+html[data-color-scheme="dark"] .text-gray-800 { color: #e8e8e8 !important; }
+html[data-color-scheme="dark"] .text-gray-600,
+html[data-color-scheme="dark"] .text-gray-700 { color: #b0b0b0 !important; }
+html[data-color-scheme="dark"] .text-gray-500 { color: #909090 !important; }
+html[data-color-scheme="dark"] .border-gray-200,
+html[data-color-scheme="dark"] .border-gray-300 { border-color: #0f3460 !important; }
+html[data-color-scheme="dark"] .bg-gray-50 { background-color: #0f3460 !important; }
+html[data-color-scheme="dark"] .bg-gray-100 { background-color: #1a1a2e !important; }
+
+/* Reduced motion */
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-reduced-motion="false"]) *,
+  html:not([data-reduced-motion="false"]) *::before,
+  html:not([data-reduced-motion="false"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 0.75rem 1rem;
+  background: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
 }
 
 * {
@@ -21,9 +112,14 @@
 
 body {
   font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
-  background: linear-gradient(135deg, #fef9f0 0%, #fff5e6 100%);
+  background: linear-gradient(135deg, var(--color-bg) 0%, #fff5e6 100%);
   color: var(--color-text);
   min-height: 100vh;
+  font-size: calc(1rem * var(--font-scale));
+}
+
+html[data-color-scheme="dark"] body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 @layer components {
@@ -32,6 +128,12 @@ body {
     @apply bg-primary-500 text-white shadow-lg hover:bg-primary-600;
     @apply active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary-400/50;
     min-height: 56px;
+  }
+
+  html[data-large-buttons="false"] .btn-primary {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
   }
 
   .btn-secondary {
@@ -46,13 +148,17 @@ body {
     @apply hover:shadow-xl hover:-translate-y-1;
   }
 
+  html[data-reduced-motion="true"] .card-activity:hover,
+  html[data-reduced-motion="true"] .hover\:-translate-y-1:hover {
+    transform: none !important;
+  }
+
   .input-accessible {
     @apply text-2xl p-4 rounded-xl border-2 border-gray-200;
     @apply focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200;
     min-height: 56px;
   }
 
-  /* Touch-friendly: botones grandes para móvil */
   @media (max-width: 639px) {
     .btn-primary {
       min-height: 52px;

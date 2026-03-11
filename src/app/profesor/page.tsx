@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { categories } from "@/data/categories";
+import { CategoryBarChart } from "@/components/CategoryBarChart";
 
 type Summary = {
   studentId: number;
@@ -387,30 +388,36 @@ export default function ProfesorPage() {
         </div>
       </div>
 
-      {/* Resumen por categoría */}
+      {/* Resumen por categoría con gráfico */}
       {categoryStats.length > 0 && (
         <div className="bg-white rounded-xl shadow p-4 mb-6 border border-gray-200">
           <h3 className="font-semibold text-gray-800 mb-3">
             Resumen por categoría {filterStudent ? `(${filterStudent})` : "(todos)"}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {categoryStats.map((cat) => (
-              <div
-                key={cat.id}
-                className="p-3 rounded-lg bg-gray-50 border border-gray-200"
-              >
-                <p className="text-lg mb-1">{cat.icon}</p>
-                <p className="font-medium text-gray-800 text-sm">{cat.name}</p>
-                <p className="text-gray-600 text-xs">
-                  {cat.completed} completadas
-                  {cat.total > 0 && cat.correct > 0 && (
-                    <span className="block text-green-600">
-                      {Math.round((cat.correct / cat.total) * 100)}% aciertos
-                    </span>
-                  )}
-                </p>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {categoryStats.map((cat) => (
+                <div
+                  key={cat.id}
+                  className="p-3 rounded-lg bg-gray-50 border border-gray-200"
+                >
+                  <p className="text-lg mb-1">{cat.icon}</p>
+                  <p className="font-medium text-gray-800 text-sm">{cat.name}</p>
+                  <p className="text-gray-600 text-xs">
+                    {cat.completed} completadas
+                    {cat.total > 0 && cat.correct > 0 && (
+                      <span className="block text-green-600">
+                        {Math.round((cat.correct / cat.total) * 100)}% aciertos
+                      </span>
+                    )}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <p className="font-semibold text-gray-800 mb-4">Progreso por categoría</p>
+              <CategoryBarChart stats={categoryStats} />
+            </div>
           </div>
         </div>
       )}

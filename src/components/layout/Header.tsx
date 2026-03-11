@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { InstallPwaButton } from "@/components/InstallPwaButton";
+import { AccessibilityPanel } from "@/components/AccessibilityPanel";
 
 export function Header() {
   const { student, logout } = useAuth();
@@ -25,6 +26,7 @@ export function Header() {
           </div>
         </Link>
         <div className="flex items-center gap-2 sm:gap-3">
+          <AccessibilityPanel />
           <InstallPwaButton />
           <Link
             href="/profesor"
