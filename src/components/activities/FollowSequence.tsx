@@ -5,34 +5,51 @@ import { Activity } from "@/types";
 import { ActivityFeedback } from "./ActivityFeedback";
 import { useActivityReport } from "@/context/ActivityReportContext";
 
+type Round = {
+  pattern: string[];
+  colors?: string[];
+  shapes?: string[];
+  nextCorrect: string;
+};
+
 export function FollowSequence({ activity }: { activity: Activity }) {
   const report = useActivityReport();
-  const data = activity.data as {
-    pattern: string[];
-    colors?: string[];
-    shapes?: string[];
-    nextCorrect: string;
-  };
+  const raw = activity.data as Round & { rounds?: Round[] };
+  const rounds: Round[] = raw.rounds ?? [raw];
+  const [currentRound, setCurrentRound] = useState(0);
   const [result, setResult] = useState<boolean | null>(null);
 
+  const data = rounds[currentRound];
+
   useEffect(() => {
-    if (result !== null) {
+    if (result !== null && currentRound >= rounds.length - 1) {
       report?.reportComplete({ correct: result });
     }
-  }, [result, report]);
+  }, [result, currentRound, rounds.length, report]);
 
-  const options = data.colors
+  const handleNext = () => {
+    setResult(null);
+    setCurrentRound((c) => c + 1);
+  };
+
+  const options = data?.colors
     ? Array.from(new Set(data.pattern.map((p) => data.colors![data.pattern.indexOf(p)])))
-    : Array.from(new Set(data.pattern));
+    : data
+    ? Array.from(new Set(data.pattern))
+    : [];
 
   if (result !== null) {
     return (
       <ActivityFeedback
         correct={result}
         onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && currentRound < rounds.length - 1 ? handleNext : undefined}
+        isLast={result && currentRound >= rounds.length - 1}
       />
     );
   }
+
+  if (!data) return null;
 
   const getDisplay = (item: string) => {
     if (data.colors) {
@@ -49,6 +66,11 @@ export function FollowSequence({ activity }: { activity: Activity }) {
 
   return (
     <div className="p-6">
+      {rounds.length > 1 && (
+        <p className="text-lg text-center text-gray-500 mb-2">
+          Ejercicio {currentRound + 1} de {rounds.length}
+        </p>
+      )}
       <p className="text-xl text-center mb-6">¿Qué sigue en la secuencia?</p>
       <div className="flex justify-center gap-4 mb-8">
         {data.pattern.map((p, i) => (
@@ -59,9 +81,7 @@ export function FollowSequence({ activity }: { activity: Activity }) {
       <div className="flex flex-wrap justify-center gap-4">
         {data.colors
           ? options.map((c, i) => {
-              const patternItem = data.pattern[
-                data.colors!.indexOf(c as string)
-              ];
+              const patternItem = data.pattern[data.colors!.indexOf(c as string)];
               return (
                 <button
                   key={i}

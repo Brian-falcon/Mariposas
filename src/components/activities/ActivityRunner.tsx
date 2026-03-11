@@ -30,6 +30,7 @@ import { ColoringGame } from "./ColoringGame";
 import { MandalaColoring } from "./MandalaColoring";
 import { ShieldPuzzle } from "./ShieldPuzzle";
 import { EmojiPuzzle } from "./EmojiPuzzle";
+import { MatchImageToImage } from "./MatchImageToImage";
 
 const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> = {
   "memorize-images": MemorizeImages,
@@ -60,6 +61,7 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "mandala-coloring": MandalaColoring,
   "shield-puzzle": ShieldPuzzle,
   "emoji-puzzle": EmojiPuzzle,
+  "match-image-to-image": MatchImageToImage,
 };
 
 interface ActivityRunnerProps {

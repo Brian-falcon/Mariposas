@@ -1,19 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity } from "@/types";
+import { ActivityFeedback } from "./ActivityFeedback";
+import { useActivityReport } from "@/context/ActivityReportContext";
+
+type Round = {
+  items: string[];
+  order?: "asc";
+  correctOrder?: string[];
+};
 
 export function OrderObjects({ activity }: { activity: Activity }) {
-  const data = activity.data as {
-    items: string[];
-    order?: "asc";
-    correctOrder?: string[];
-  };
-  const correctOrder = data.correctOrder || data.items;
-  const [order, setOrder] = useState<string[]>(
-    [...data.items].sort(() => Math.random() - 0.5)
-  );
+  const report = useActivityReport();
+  const raw = activity.data as Round & { rounds?: Round[] };
+  const rounds: Round[] = raw.rounds ?? [raw];
+  const [currentRound, setCurrentRound] = useState(0);
   const [result, setResult] = useState<boolean | null>(null);
+
+  const data = rounds[currentRound];
+  const correctOrder = data?.correctOrder ?? data?.items ?? [];
+  const [order, setOrder] = useState<string[]>(() => {
+    const d = rounds[0];
+    return d?.items ? [...d.items].sort(() => Math.random() - 0.5) : [];
+  });
+
+  useEffect(() => {
+    if (data?.items) {
+      setOrder([...data.items].sort(() => Math.random() - 0.5));
+    }
+  }, [currentRound, data?.items]);
+
+  useEffect(() => {
+    if (result !== null && currentRound >= rounds.length - 1) {
+      report?.reportComplete({ correct: result });
+    }
+  }, [result, currentRound, rounds.length, report]);
 
   const move = (from: number, to: number) => {
     const newOrder = [...order];
@@ -27,16 +49,32 @@ export function OrderObjects({ activity }: { activity: Activity }) {
     setResult(correct);
   };
 
+  const handleNext = () => {
+    setResult(null);
+    setCurrentRound((c) => c + 1);
+  };
+
   if (result !== null) {
     return (
-      <div className="text-center py-12">
-        <p className="text-4xl mb-4">{result ? "¡Perfecto! 🎉" : "Intenta ordenar de nuevo"}</p>
-      </div>
+      <ActivityFeedback
+        correct={result}
+        correctMessage="¡Perfecto! 🎉"
+        onRetry={!result ? () => setResult(null) : undefined}
+        onNext={result && currentRound < rounds.length - 1 ? handleNext : undefined}
+        isLast={result && currentRound >= rounds.length - 1}
+      />
     );
   }
 
+  if (!data || order.length === 0) return null;
+
   return (
     <div className="p-6">
+      {rounds.length > 1 && (
+        <p className="text-lg text-center text-gray-500 mb-2">
+          Ejercicio {currentRound + 1} de {rounds.length}
+        </p>
+      )}
       <p className="text-xl text-center mb-6">
         Ordena de menor a mayor (usa las flechas)
       </p>

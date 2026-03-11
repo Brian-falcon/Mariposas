@@ -57,8 +57,12 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["●", "●●", "●●●", "●●●●"],
-      order: "asc",
+      rounds: [
+        { items: ["●", "●●", "●●●", "●●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●●●", "●", "●●", "●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●", "●●●●", "●", "●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●●", "●", "●●●●", "●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+      ],
     },
   },
   {
@@ -69,8 +73,12 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "medium",
     type: "order-objects",
     data: {
-      items: ["5", "2", "8", "1", "4"],
-      correctOrder: ["1", "2", "4", "5", "8"],
+      rounds: [
+        { items: ["5", "2", "8", "1", "4"], correctOrder: ["1", "2", "4", "5", "8"] },
+        { items: ["3", "7", "1", "5", "9"], correctOrder: ["1", "3", "5", "7", "9"] },
+        { items: ["6", "2", "4", "8", "1"], correctOrder: ["1", "2", "4", "6", "8"] },
+        { items: ["9", "3", "6", "2", "5"], correctOrder: ["2", "3", "5", "6", "9"] },
+      ],
     },
   },
   {
@@ -81,9 +89,13 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "follow-sequence",
     data: {
-      pattern: ["rojo", "azul", "rojo", "azul"],
-      colors: ["#E86B6B", "#4A90D9"],
-      nextCorrect: "rojo",
+      rounds: [
+        { pattern: ["rojo", "azul", "rojo", "azul"], colors: ["#E86B6B", "#4A90D9"], nextCorrect: "rojo" },
+        { pattern: ["azul", "rojo", "azul", "rojo"], colors: ["#4A90D9", "#E86B6B"], nextCorrect: "azul" },
+        { pattern: ["rojo", "rojo", "azul", "rojo"], colors: ["#E86B6B", "#4A90D9"], nextCorrect: "rojo" },
+        { pattern: ["azul", "azul", "rojo", "azul"], colors: ["#4A90D9", "#E86B6B"], nextCorrect: "azul" },
+        { pattern: ["rojo", "azul", "azul", "rojo"], colors: ["#E86B6B", "#4A90D9"], nextCorrect: "azul" },
+      ],
     },
   },
   {
@@ -94,9 +106,13 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "medium",
     type: "follow-sequence",
     data: {
-      pattern: ["●", "■", "●", "■"],
-      shapes: ["●", "■"],
-      nextCorrect: "●",
+      rounds: [
+        { pattern: ["●", "■", "●", "■"], shapes: ["●", "■"], nextCorrect: "●" },
+        { pattern: ["■", "●", "■", "●"], shapes: ["■", "●"], nextCorrect: "■" },
+        { pattern: ["●", "●", "■", "●"], shapes: ["●", "■"], nextCorrect: "●" },
+        { pattern: ["■", "■", "●", "■"], shapes: ["■", "●"], nextCorrect: "■" },
+        { pattern: ["●", "■", "■", "●"], shapes: ["●", "■"], nextCorrect: "■" },
+      ],
     },
   },
   // Más arrastrar y soltar
@@ -145,8 +161,11 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "medium",
     type: "order-objects",
     data: {
-      items: ["C", "A", "B", "D"],
-      correctOrder: ["A", "B", "C", "D"],
+      rounds: [
+        { items: ["C", "A", "B", "D"], correctOrder: ["A", "B", "C", "D"] },
+        { items: ["E", "B", "D", "A", "C"], correctOrder: ["A", "B", "C", "D", "E"] },
+        { items: ["F", "A", "C", "E", "B", "D"], correctOrder: ["A", "B", "C", "D", "E", "F"] },
+      ],
     },
   },
   {
@@ -157,8 +176,12 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["3", "1", "4", "2"],
-      correctOrder: ["1", "2", "3", "4"],
+      rounds: [
+        { items: ["3", "1", "4", "2"], correctOrder: ["1", "2", "3", "4"] },
+        { items: ["4", "2", "1", "3"], correctOrder: ["1", "2", "3", "4"] },
+        { items: ["2", "4", "3", "1"], correctOrder: ["1", "2", "3", "4"] },
+        { items: ["1", "3", "2", "4"], correctOrder: ["1", "2", "3", "4"] },
+      ],
     },
   },
   // Más seguir secuencia
@@ -170,9 +193,13 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "follow-sequence",
     data: {
-      pattern: ["🍎", "🍌", "🍎", "🍌"],
-      shapes: ["🍎", "🍌"],
-      nextCorrect: "🍎",
+      rounds: [
+        { pattern: ["🍎", "🍌", "🍎", "🍌"], shapes: ["🍎", "🍌"], nextCorrect: "🍎" },
+        { pattern: ["🍌", "🍎", "🍌", "🍎"], shapes: ["🍌", "🍎"], nextCorrect: "🍌" },
+        { pattern: ["🍎", "🍎", "🍌", "🍎"], shapes: ["🍎", "🍌"], nextCorrect: "🍎" },
+        { pattern: ["🍌", "🍌", "🍎", "🍌"], shapes: ["🍌", "🍎"], nextCorrect: "🍌" },
+        { pattern: ["🍎", "🍌", "🍌", "🍎"], shapes: ["🍎", "🍌"], nextCorrect: "🍌" },
+      ],
     },
   },
   // 6 actividades nuevas
@@ -208,6 +235,8 @@ export const coordinacionActivities: Activity[] = [
         { source: "⭐", target: "estrella" },
         { source: "🌈", target: "arcoíris" },
         { source: "☁️", target: "nube" },
+        { source: "🌤️", target: "nublado" },
+        { source: "⛅", target: "sol y nube" },
       ],
     },
   },
@@ -219,8 +248,11 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["●", "●●●", "●●", "●●●●"],
-      order: "asc",
+      rounds: [
+        { items: ["●", "●●●", "●●", "●●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●●●", "●●", "●", "●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●", "●●●●", "●●●", "●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+      ],
     },
   },
   {
@@ -231,8 +263,12 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["3", "1", "5", "2", "4"],
-      correctOrder: ["1", "2", "3", "4", "5"],
+      rounds: [
+        { items: ["3", "1", "5", "2", "4"], correctOrder: ["1", "2", "3", "4", "5"] },
+        { items: ["5", "2", "4", "1", "3"], correctOrder: ["1", "2", "3", "4", "5"] },
+        { items: ["2", "5", "1", "4", "3"], correctOrder: ["1", "2", "3", "4", "5"] },
+        { items: ["4", "1", "3", "5", "2"], correctOrder: ["1", "2", "3", "4", "5"] },
+      ],
     },
   },
   {
@@ -243,9 +279,13 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "follow-sequence",
     data: {
-      pattern: ["🍎", "🍊", "🍎", "🍊"],
-      shapes: ["🍎", "🍊"],
-      nextCorrect: "🍎",
+      rounds: [
+        { pattern: ["🍎", "🍊", "🍎", "🍊"], shapes: ["🍎", "🍊"], nextCorrect: "🍎" },
+        { pattern: ["🍊", "🍎", "🍊", "🍎"], shapes: ["🍊", "🍎"], nextCorrect: "🍊" },
+        { pattern: ["🍎", "🍎", "🍊", "🍎"], shapes: ["🍎", "🍊"], nextCorrect: "🍎" },
+        { pattern: ["🍊", "🍊", "🍎", "🍊"], shapes: ["🍊", "🍎"], nextCorrect: "🍊" },
+        { pattern: ["🍎", "🍊", "🍊", "🍎"], shapes: ["🍎", "🍊"], nextCorrect: "🍊" },
+      ],
     },
   },
   {
@@ -294,8 +334,11 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["2", "4", "1", "3", "5"],
-      correctOrder: ["1", "2", "3", "4", "5"],
+      rounds: [
+        { items: ["2", "4", "1", "3", "5"], correctOrder: ["1", "2", "3", "4", "5"] },
+        { items: ["5", "3", "1", "4", "2"], correctOrder: ["1", "2", "3", "4", "5"] },
+        { items: ["4", "2", "5", "1", "3"], correctOrder: ["1", "2", "3", "4", "5"] },
+      ],
     },
   },
   {
@@ -306,8 +349,11 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["B", "A", "D", "C", "E"],
-      correctOrder: ["A", "B", "C", "D", "E"],
+      rounds: [
+        { items: ["B", "A", "D", "C", "E"], correctOrder: ["A", "B", "C", "D", "E"] },
+        { items: ["D", "F", "C", "E", "B", "A"], correctOrder: ["A", "B", "C", "D", "E", "F"] },
+        { items: ["C", "A", "E", "B", "D"], correctOrder: ["A", "B", "C", "D", "E"] },
+      ],
     },
   },
   {
@@ -338,8 +384,11 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["●", "●●●●", "●●", "●●●"],
-      order: "asc",
+      rounds: [
+        { items: ["●", "●●●●", "●●", "●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●●", "●", "●●●●", "●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+        { items: ["●●", "●●●", "●", "●●●●"], correctOrder: ["●", "●●", "●●●", "●●●●"] },
+      ],
     },
   },
   {
@@ -350,8 +399,11 @@ export const coordinacionActivities: Activity[] = [
     difficulty: "easy",
     type: "order-objects",
     data: {
-      items: ["4", "1", "6", "2", "5", "3"],
-      correctOrder: ["1", "2", "3", "4", "5", "6"],
+      rounds: [
+        { items: ["4", "1", "6", "2", "5", "3"], correctOrder: ["1", "2", "3", "4", "5", "6"] },
+        { items: ["6", "3", "1", "5", "2", "4"], correctOrder: ["1", "2", "3", "4", "5", "6"] },
+        { items: ["2", "5", "1", "6", "4", "3"], correctOrder: ["1", "2", "3", "4", "5", "6"] },
+      ],
     },
   },
   {
@@ -361,7 +413,15 @@ export const coordinacionActivities: Activity[] = [
     category: "coordinacion",
     difficulty: "easy",
     type: "follow-sequence",
-    data: { pattern: ["😊", "😢", "😊", "😢"], shapes: ["😊", "😢"], nextCorrect: "😊" },
+    data: {
+      rounds: [
+        { pattern: ["😊", "😢", "😊", "😢"], shapes: ["😊", "😢"], nextCorrect: "😊" },
+        { pattern: ["😢", "😊", "😢", "😊"], shapes: ["😢", "😊"], nextCorrect: "😢" },
+        { pattern: ["😊", "😊", "😢", "😊"], shapes: ["😊", "😢"], nextCorrect: "😊" },
+        { pattern: ["😢", "😢", "😊", "😢"], shapes: ["😢", "😊"], nextCorrect: "😢" },
+        { pattern: ["😊", "😢", "😢", "😊"], shapes: ["😊", "😢"], nextCorrect: "😢" },
+      ],
+    },
   },
   {
     id: "coo-25",
