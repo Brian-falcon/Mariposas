@@ -6,13 +6,13 @@ import { useActivityReport } from "@/context/ActivityReportContext";
 
 type ShadowPair = { id: string; shadow: string; color: string };
 
-function ImageDisplay({ src, alt }: { src: string; alt: string }) {
+function ImageDisplay({ src, alt, draggable = false }: { src: string; alt: string; draggable?: boolean }) {
   return (
     <img
       src={src}
       alt={alt}
-      className="w-full h-full object-contain"
-      draggable={false}
+      className="w-full h-full object-contain select-none pointer-events-none"
+      draggable={draggable}
     />
   );
 }
@@ -21,25 +21,35 @@ export function MatchImageToShadow({ activity }: { activity: Activity }) {
   const report = useActivityReport();
   const data = activity.data as { pairs: ShadowPair[] };
   const pairs = data.pairs;
-  const [selected, setSelected] = useState<ShadowPair | null>(null);
   const [matches, setMatches] = useState<Record<number, string>>({});
+  const [dragging, setDragging] = useState<string | null>(null);
   const shuffled = [...pairs].sort(() => Math.random() - 0.5);
 
-  const handleBottomClick = (pair: ShadowPair) => {
+  const handleDragStart = (e: React.DragEvent, pair: ShadowPair) => {
     if (Object.values(matches).includes(pair.id)) return;
-    setSelected((prev) => (prev?.id === pair.id ? null : pair));
+    setDragging(pair.id);
+    e.dataTransfer.setData("text/plain", pair.id);
+    e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleSlotClick = (slotIndex: number) => {
-    if (!selected) return;
-    const pairId = pairs[slotIndex].id;
-    if (matches[slotIndex] === pairId) return;
-    if (selected.id === pairId) {
+  const handleDragEnd = () => {
+    setDragging(null);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e: React.DragEvent, slotIndex: number) => {
+    e.preventDefault();
+    const pairId = e.dataTransfer.getData("text/plain");
+    if (!pairId) return;
+    if (matches[slotIndex] === pairs[slotIndex].id) return; // ya completado
+    if (pairId === pairs[slotIndex].id) {
       setMatches((m) => ({ ...m, [slotIndex]: pairId }));
-      setSelected(null);
-    } else {
-      setSelected(null);
     }
+    setDragging(null);
   };
 
   const allMatched = Object.keys(matches).length === pairs.length;
@@ -61,7 +71,7 @@ export function MatchImageToShadow({ activity }: { activity: Activity }) {
   return (
     <div className="p-4 sm:p-6 max-w-4xl mx-auto">
       <p className="text-xl text-center mb-6">
-        Une cada imagen con su sombra. Toca la imagen de abajo y luego el recuadro que corresponde.
+        Arrastra cada imagen con el mouse hasta el recuadro que corresponde a su sombra.
       </p>
 
       {/* Sección superior - Beige: sombras con zonas de soltar */}
@@ -75,17 +85,14 @@ export function MatchImageToShadow({ activity }: { activity: Activity }) {
               <div className="w-full aspect-square max-w-[120px] sm:max-w-[140px] flex items-center justify-center mb-2 rounded-xl bg-white border border-amber-200 overflow-hidden p-2">
                 <ImageDisplay src={pair.shadow} alt={`Sombra de ${pair.id}`} />
               </div>
-              <button
-                type="button"
-                onClick={() => handleSlotClick(idx)}
-                className={`w-full min-h-[70px] sm:min-h-[80px] rounded-xl border-2 border-dashed flex items-center justify-center transition-all touch-manipulation ${
+              <div
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, idx)}
+                className={`w-full min-h-[70px] sm:min-h-[80px] rounded-xl border-2 border-dashed flex items-center justify-center transition-all cursor-pointer ${
                   matches[idx]
                     ? "border-green-500 bg-green-50"
-                    : selected?.id === pair.id
-                    ? "border-primary-500 bg-primary-50 ring-2 ring-primary-400"
-                    : "border-green-400 bg-white/50 hover:border-primary-400"
+                    : "border-green-400 bg-white/50 hover:border-primary-400 hover:bg-primary-50/50"
                 }`}
-                aria-label={`Soltar aquí para la sombra de ${pair.id}`}
               >
                 {matches[idx] ? (
                   <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
@@ -94,13 +101,13 @@ export function MatchImageToShadow({ activity }: { activity: Activity }) {
                 ) : (
                   <span className="text-gray-400 text-sm">Suelta aquí</span>
                 )}
-              </button>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Sección inferior - Verde claro: imágenes a color */}
+      {/* Sección inferior - Verde claro: imágenes a arrastrar */}
       <div
         className="rounded-2xl p-4 sm:p-6"
         style={{ backgroundColor: "#e8f5e9" }}
@@ -109,28 +116,24 @@ export function MatchImageToShadow({ activity }: { activity: Activity }) {
           {shuffled
             .filter((p) => remainingIds.includes(p.id))
             .map((pair) => (
-              <button
+              <div
                 key={pair.id}
-                type="button"
-                onClick={() => handleBottomClick(pair)}
-                className={`aspect-square max-w-[120px] sm:max-w-[140px] mx-auto flex items-center justify-center rounded-xl overflow-hidden transition-all touch-manipulation ${
-                  selected?.id === pair.id
-                    ? "ring-4 ring-primary-500 bg-primary-100 scale-105"
-                    : "bg-white shadow-md hover:shadow-lg hover:scale-105"
+                draggable
+                onDragStart={(e) => handleDragStart(e, pair)}
+                onDragEnd={handleDragEnd}
+                className={`aspect-square max-w-[120px] sm:max-w-[140px] mx-auto flex items-center justify-center rounded-xl overflow-hidden cursor-grab active:cursor-grabbing transition-all ${
+                  dragging === pair.id ? "opacity-50 scale-95" : "bg-white shadow-md hover:shadow-lg"
                 }`}
-                aria-label={`Seleccionar ${pair.id}`}
               >
                 <ImageDisplay src={pair.color} alt={pair.id} />
-              </button>
+              </div>
             ))}
         </div>
       </div>
 
-      {selected && (
-        <p className="text-center text-primary-600 font-semibold mt-4">
-          Toca el recuadro verde punteado donde va la imagen seleccionada
-        </p>
-      )}
+      <p className="text-center text-gray-500 text-sm mt-4">
+        En tablets o celulares: mantené presionada la imagen y arrastrala hasta el recuadro.
+      </p>
     </div>
   );
 }
