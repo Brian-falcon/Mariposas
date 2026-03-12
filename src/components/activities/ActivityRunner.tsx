@@ -37,6 +37,8 @@ import { ChooseOption } from "./ChooseOption";
 import { OddOneOut } from "./OddOneOut";
 import { StorySequence } from "./StorySequence";
 import { BreathingExercise } from "./BreathingExercise";
+import { SumWithDots } from "./SumWithDots";
+import { SubtractWithDots } from "./SubtractWithDots";
 
 const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> = {
   "memorize-images": MemorizeImages,
@@ -74,6 +76,8 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "odd-one-out": OddOneOut,
   "story-sequence": StorySequence,
   "breathing-exercise": BreathingExercise,
+  "sum-with-dots": SumWithDots,
+  "subtract-with-dots": SubtractWithDots,
 };
 
 interface ActivityRunnerProps {
