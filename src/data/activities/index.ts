@@ -6,6 +6,13 @@ import { lecturaActivities } from "./lectura";
 import { auditivoActivities } from "./auditivo";
 import { coordinacionActivities } from "./coordinacion";
 import { juegosActivities } from "./juegos";
+import { emocionesActivities } from "./emociones";
+import { tiempoActivities } from "./tiempo";
+import { espacialActivities } from "./espacial";
+import { categorizacionActivities } from "./categorizacion";
+import { vidaDiariaActivities } from "./vida-diaria";
+import { relajacionActivities } from "./relajacion";
+
 export const allActivities: Activity[] = [
   ...memoriaActivities,
   ...visualActivities,
@@ -14,6 +21,12 @@ export const allActivities: Activity[] = [
   ...auditivoActivities,
   ...coordinacionActivities,
   ...juegosActivities,
+  ...emocionesActivities,
+  ...tiempoActivities,
+  ...espacialActivities,
+  ...categorizacionActivities,
+  ...vidaDiariaActivities,
+  ...relajacionActivities,
 ];
 
 export function getActivitiesByCategory(category: string): Activity[] {

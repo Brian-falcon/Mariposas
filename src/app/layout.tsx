@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AccessibilityProvider } from "@/context/AccessibilityContext";
+import { PersonalizationProvider } from "@/context/PersonalizationContext";
 import { AuthGuard } from "@/components/AuthGuard";
 import { RegisterServiceWorker } from "@/components/RegisterServiceWorker";
 
@@ -54,11 +55,13 @@ export default function RootLayout({
         <RegisterServiceWorker />
         <AuthProvider>
           <AccessibilityProvider>
+          <PersonalizationProvider>
           <Header />
           <main id="main-content" className="flex-1" tabIndex={-1}>
           <AuthGuard>{children}</AuthGuard>
         </main>
           <Footer />
+          </PersonalizationProvider>
           </AccessibilityProvider>
         </AuthProvider>
       </body>

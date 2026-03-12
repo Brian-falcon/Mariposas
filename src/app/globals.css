@@ -166,3 +166,16 @@ html[data-color-scheme="dark"] body {
     }
   }
 }
+
+/* Print styles for certificate */
+@media print {
+  body * { visibility: hidden; }
+  #main-content * { visibility: visible; }
+  #main-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .print\:hidden { display: none !important; }
+}

@@ -5,44 +5,22 @@ import { Activity } from "@/types";
 import { ActivityFeedback } from "./ActivityFeedback";
 import { useActivityReport } from "@/context/ActivityReportContext";
 
-type Round = {
-  items: string[];
-  order?: "asc";
-  correctOrder?: string[];
-  prompt?: string;
-};
-
-type ActivityData = Round & { rounds?: Round[]; prompt?: string };
-
-export function OrderObjects({ activity }: { activity: Activity }) {
+export function StorySequence({ activity }: { activity: Activity }) {
   const report = useActivityReport();
-  const raw = activity.data as ActivityData;
-  const rounds: Round[] = raw.rounds ?? [raw];
-  const [currentRound, setCurrentRound] = useState(0);
+  const data = activity.data as { panels: string[] };
+  const panels = data.panels ?? [];
+  const correctOrder = [...panels];
+  const [order, setOrder] = useState<string[]>(() => [...panels].sort(() => Math.random() - 0.5));
   const [result, setResult] = useState<boolean | null>(null);
 
-  const data = rounds[currentRound];
-  const correctOrder = data?.correctOrder ?? data?.items ?? [];
-  const defaultPrompt = "Ordena de menor a mayor (usa las flechas)";
-  const prompt = data?.prompt ?? raw?.prompt ?? defaultPrompt;
-  const [order, setOrder] = useState<string[]>(() => {
-    const d = rounds[0];
-    return d?.items ? [...d.items].sort(() => Math.random() - 0.5) : [];
-  });
-
   useEffect(() => {
-    if (data?.items) {
-      setOrder([...data.items].sort(() => Math.random() - 0.5));
-    }
-  }, [currentRound, data?.items]);
-
-  useEffect(() => {
-    if (result !== null && currentRound >= rounds.length - 1) {
+    if (result !== null) {
       report?.reportComplete({ correct: result });
     }
-  }, [result, currentRound, rounds.length, report]);
+  }, [result, report]);
 
   const move = (from: number, to: number) => {
+    if (result !== null) return;
     const newOrder = [...order];
     const [removed] = newOrder.splice(from, 1);
     newOrder.splice(to, 0, removed);
@@ -54,44 +32,36 @@ export function OrderObjects({ activity }: { activity: Activity }) {
     setResult(correct);
   };
 
-  const handleNext = () => {
-    setResult(null);
-    setCurrentRound((c) => c + 1);
-  };
-
   if (result !== null) {
     return (
       <ActivityFeedback
         correct={result}
-        correctMessage="¡Perfecto! 🎉"
+        correctMessage="¡Historia en orden! 🎉"
         onRetry={!result ? () => setResult(null) : undefined}
-        onNext={result && currentRound < rounds.length - 1 ? handleNext : undefined}
-        isLast={result && currentRound >= rounds.length - 1}
+        isLast={true}
       />
     );
   }
 
-  if (!data || order.length === 0) return null;
+  if (panels.length === 0) return null;
 
   return (
     <div className="p-6">
-      {rounds.length > 1 && (
-        <p className="text-lg text-center text-gray-500 mb-2">
-          Ejercicio {currentRound + 1} de {rounds.length}
-        </p>
-      )}
-      <p className="text-xl text-center mb-6">
-        {prompt}
+      <p className="text-xl text-center mb-8">
+        Ordena la historia. ¿Qué viene primero, después y al final?
       </p>
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-8">
         {order.map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-2">
-            <span className="text-5xl">{item}</span>
+            <span className="text-4xl sm:text-5xl p-4 bg-primary-50 rounded-2xl min-w-[120px] text-center">
+              {item}
+            </span>
             <div className="flex gap-2">
               <button
                 onClick={() => i > 0 && move(i, i - 1)}
                 disabled={i === 0}
                 className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+                aria-label="Mover a la izquierda"
               >
                 ←
               </button>
@@ -99,6 +69,7 @@ export function OrderObjects({ activity }: { activity: Activity }) {
                 onClick={() => i < order.length - 1 && move(i, i + 1)}
                 disabled={i === order.length - 1}
                 className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+                aria-label="Mover a la derecha"
               >
                 →
               </button>
@@ -111,7 +82,7 @@ export function OrderObjects({ activity }: { activity: Activity }) {
           onClick={check}
           className="px-8 py-4 text-xl font-bold rounded-xl bg-green-500 text-white hover:bg-green-600"
         >
-          Verificar
+          Verificar orden
         </button>
       </div>
     </div>

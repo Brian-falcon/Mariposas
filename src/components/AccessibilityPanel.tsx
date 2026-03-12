@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useAccessibility } from "@/context/AccessibilityContext";
+import { usePersonalization } from "@/context/PersonalizationContext";
 import type { FontSize, ColorScheme } from "@/context/AccessibilityContext";
 
 export function AccessibilityPanel() {
   const [open, setOpen] = useState(false);
   const acc = useAccessibility();
+  const { avatar, setAvatar, avatars } = usePersonalization();
 
   return (
     <div className="relative">
@@ -36,10 +38,32 @@ export function AccessibilityPanel() {
             className="fixed right-4 top-16 sm:right-6 sm:top-20 z-50 w-full max-w-sm bg-white rounded-2xl shadow-2xl border-2 border-gray-200 p-6"
           >
             <h2 id="accessibility-title" className="text-xl font-bold text-gray-800 mb-4">
-              Accesibilidad
+              Configuración
             </h2>
 
             <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Tu avatar
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {avatars.map((a) => (
+                    <button
+                      key={a}
+                      type="button"
+                      onClick={() => setAvatar(a)}
+                      className={`w-12 h-12 text-2xl rounded-xl transition-all ${
+                        avatar === a
+                          ? "bg-primary-500 ring-2 ring-primary-600 scale-110"
+                          : "bg-gray-100 hover:bg-gray-200"
+                      }`}
+                    >
+                      {a}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <hr className="border-gray-200" />
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Tamaño del texto

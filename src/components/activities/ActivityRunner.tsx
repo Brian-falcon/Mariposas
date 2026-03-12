@@ -32,6 +32,11 @@ import { ShieldPuzzle } from "./ShieldPuzzle";
 import { EmojiPuzzle } from "./EmojiPuzzle";
 import { MatchImageToImage } from "./MatchImageToImage";
 import { MatchImageToShadow } from "./MatchImageToShadow";
+import { IdentifyEmotion } from "./IdentifyEmotion";
+import { ChooseOption } from "./ChooseOption";
+import { OddOneOut } from "./OddOneOut";
+import { StorySequence } from "./StorySequence";
+import { BreathingExercise } from "./BreathingExercise";
 
 const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> = {
   "memorize-images": MemorizeImages,
@@ -64,6 +69,11 @@ const componentMap: Record<string, React.ComponentType<{ activity: Activity }>> 
   "emoji-puzzle": EmojiPuzzle,
   "match-image-to-image": MatchImageToImage,
   "match-image-to-shadow": MatchImageToShadow,
+  "identify-emotion": IdentifyEmotion,
+  "choose-option": ChooseOption,
+  "odd-one-out": OddOneOut,
+  "story-sequence": StorySequence,
+  "breathing-exercise": BreathingExercise,
 };
 
 interface ActivityRunnerProps {
