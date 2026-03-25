@@ -2,13 +2,14 @@ import Link from "next/link";
 import { categories } from "@/data/categories";
 import { allActivities } from "@/data/activities";
 import { WelcomeSection } from "@/components/WelcomeSection";
+import { ActivitySearchPanel } from "@/components/ActivitySearchPanel";
 
 export default function HomePage() {
-  const totalActivities = allActivities.length;
-
   return (
     <div className="max-w-6xl mx-auto px-3 sm:px-4 py-5 sm:py-8">
       <WelcomeSection />
+
+      <ActivitySearchPanel activities={allActivities} categories={categories} />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" role="navigation" aria-label="Categorías de actividades">
         {categories.map((cat) => {

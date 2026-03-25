@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { categories } from "@/data/categories";
 import { getActivitiesByCategory } from "@/data/activities";
+import { ActivitySearchPanel } from "@/components/ActivitySearchPanel";
 
 export function generateStaticParams() {
   return categories.map((c) => ({ id: c.id }));
@@ -46,6 +47,12 @@ export default function CategoryPage({
           <p className="text-gray-600 text-sm sm:text-base">{category.description}</p>
         </div>
       </div>
+
+      <ActivitySearchPanel
+        activities={activities}
+        categories={categories}
+        title="Buscar en esta categoría"
+      />
 
       <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {activities.map((act) => (

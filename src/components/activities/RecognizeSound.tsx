@@ -49,8 +49,16 @@ export function RecognizeSound({ activity }: { activity: Activity }) {
   };
 
   const handleNext = () => {
+    stopSound();
+    setIsPlaying(false);
     setResult(null);
     setCurrentRound((c) => c + 1);
+  };
+
+  const handleChoose = (correct: boolean) => {
+    stopSound();
+    setIsPlaying(false);
+    setResult(correct);
   };
 
   if (!round) return null;
@@ -61,7 +69,15 @@ export function RecognizeSound({ activity }: { activity: Activity }) {
       <ActivityFeedback
         correct={result}
         message={!result ? `Es el sonido de: ${round.soundType}` : undefined}
-        onRetry={!result ? () => setResult(null) : undefined}
+        onRetry={
+          !result
+            ? () => {
+                stopSound();
+                setIsPlaying(false);
+                setResult(null);
+              }
+            : undefined
+        }
         onNext={result && !isLast ? handleNext : undefined}
         isLast={result && isLast}
       />
@@ -100,7 +116,7 @@ export function RecognizeSound({ activity }: { activity: Activity }) {
           <button
             key={`${opt}-${emoji}`}
             type="button"
-            onClick={() => setResult(opt === round.soundType)}
+            onClick={() => handleChoose(opt === round.soundType)}
             className="flex flex-col items-center gap-2 px-8 py-6 rounded-2xl bg-primary-100 hover:bg-primary-200 transition-all"
           >
             <span className="text-5xl">{emoji}</span>
