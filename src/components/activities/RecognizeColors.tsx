@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Activity } from "@/types";
 import { useActivityReport } from "@/context/ActivityReportContext";
 import { ActivityFeedback } from "./ActivityFeedback";
+import { shuffleArray } from "@/lib/shuffle";
 
 type Round = { targetColor: string; colorHex: string; options: string[]; colorOptions: string[] };
 
@@ -21,6 +22,11 @@ export function RecognizeColors({ activity }: { activity: Activity }) {
   }, [result, currentRound, rounds.length, report]);
 
   const round = rounds[currentRound];
+  const shuffledLabels = useMemo(
+    () => (round ? shuffleArray([...round.options]) : []),
+    [currentRound, round]
+  );
+
   if (!round) return null;
 
   const handleNext = () => {
@@ -52,9 +58,9 @@ export function RecognizeColors({ activity }: { activity: Activity }) {
         style={{ backgroundColor: round.colorHex }}
       />
       <div className="flex flex-wrap justify-center gap-4">
-        {round.options.map((opt, i) => (
+        {shuffledLabels.map((opt) => (
           <button
-            key={i}
+            key={opt}
             onClick={() => setResult(opt === round.targetColor)}
             className="px-8 py-4 text-xl font-bold rounded-xl bg-primary-100 hover:bg-primary-200 capitalize"
           >

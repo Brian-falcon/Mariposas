@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Activity } from "@/types";
 import { useActivityReport } from "@/context/ActivityReportContext";
 import { ActivityFeedback } from "./ActivityFeedback";
+import { shuffleArray } from "@/lib/shuffle";
 
 type Round = { items: string[]; answer: number; label?: string };
 
@@ -22,10 +23,13 @@ export function CountObjects({ activity }: { activity: Activity }) {
   }, [showCorrect, currentRound, rounds.length, report]);
 
   const round = rounds[currentRound];
-  if (!round) return null;
+  const uniqueOptions = useMemo(() => {
+    if (!round) return [] as number[];
+    const opts = [round.answer - 1, round.answer, round.answer + 1].filter((n) => n >= 0);
+    return shuffleArray(Array.from(new Set(opts)));
+  }, [round, currentRound]);
 
-  const options = [round.answer - 1, round.answer, round.answer + 1].filter((n) => n >= 0);
-  const uniqueOptions = Array.from(new Set(options)).sort((a, b) => a - b);
+  if (!round) return null;
 
   const handleCorrect = () => {
     setShowCorrect(true);

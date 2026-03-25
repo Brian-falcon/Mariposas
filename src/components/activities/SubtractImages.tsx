@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Activity } from "@/types";
 import { useActivityReport } from "@/context/ActivityReportContext";
+import { shuffleArray } from "@/lib/shuffle";
 
 type Round = { total: string[]; subtract: string[]; answer: number };
 
@@ -20,10 +21,13 @@ export function SubtractImages({ activity }: { activity: Activity }) {
   const [showCorrect, setShowCorrect] = useState(false);
 
   const round = rounds[currentRound];
-  if (!round) return null;
+  const uniqueOptions = useMemo(() => {
+    if (!round) return [] as number[];
+    const opts = [round.answer - 1, round.answer, round.answer + 1].filter((n) => n >= 0);
+    return shuffleArray(Array.from(new Set(opts)));
+  }, [round, currentRound]);
 
-  const options = [round.answer - 1, round.answer, round.answer + 1].filter((n) => n >= 0);
-  const uniqueOptions = Array.from(new Set(options)).sort((a, b) => a - b);
+  if (!round) return null;
 
   const handleNext = () => {
     setShowCorrect(false);

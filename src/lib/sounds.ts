@@ -1,7 +1,7 @@
 /**
  * Utilidad para reproducir sonidos en actividades auditivas.
- * Usa Web Speech API (text-to-speech) con onomatopeyas en español.
- * También soporta URLs de audio para archivos reales (ej: /sounds/perro.mp3)
+ * Por defecto usa grabaciones de Wikimedia Commons (dominio público / CC).
+ * Si falla la carga, usa Web Speech API con onomatopeyas en español.
  */
 
 const ONOMATOPEYAS: Record<string, string> = {
@@ -24,10 +24,34 @@ const ONOMATOPEYAS: Record<string, string> = {
   guitarra: "¡Rasgueo!",
 };
 
+/** Grabaciones reales (Wikimedia Commons) — encajan con la etiqueta en español de cada actividad */
+const DEFAULT_SOUND_URLS: Record<string, string> = {
+  perro: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Barking_of_a_dog.ogg",
+  gato: "https://upload.wikimedia.org/wikipedia/commons/6/62/Meow.ogg",
+  pájaro: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Spizella_passerina_-_Chipping_Sparrow_-_XC79970.ogg",
+  vaca: "https://upload.wikimedia.org/wikipedia/commons/4/48/Mudchute_cow_1.ogg",
+  oveja: "https://upload.wikimedia.org/wikipedia/commons/1/13/Sheep_bleating.ogg",
+  auto: "https://upload.wikimedia.org/wikipedia/commons/9/90/Speeding-car-horn_doppler_effect_sample.ogg",
+  tren: "https://upload.wikimedia.org/wikipedia/commons/8/89/AirChime_K5LA.ogg",
+  avión: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Jet_airliner_overhead.ogg",
+  barco: "https://upload.wikimedia.org/wikipedia/commons/0/07/Cruise_ship_Albatros_ship_horn.ogg",
+  lluvia: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Rain.ogg",
+  viento: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Wind_in_Swedish_pine_forest_at_25_mps.ogg",
+  trueno: "https://upload.wikimedia.org/wikipedia/commons/9/93/Thunder.ogg",
+  río: "https://upload.wikimedia.org/wikipedia/commons/1/19/Rivernoise3.ogg",
+  campana: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Samariter_Church_bell_III_%28b%29.ogg",
+  tambor: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Snare_drum_unmuffled.ogg",
+  flauta: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Flute_2.ogg",
+  guitarra: "https://upload.wikimedia.org/wikipedia/commons/a/ae/G_chord.ogg",
+};
+
 let audioInstance: HTMLAudioElement | null = null;
 
-function speakText(text: string, lang = "es-ES") {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
+function speakText(text: string, lang = "es-ES", onEnd?: () => void) {
+  if (typeof window === "undefined" || !window.speechSynthesis) {
+    onEnd?.();
+    return;
+  }
 
   window.speechSynthesis.cancel();
 
@@ -36,6 +60,8 @@ function speakText(text: string, lang = "es-ES") {
   utterance.rate = 0.9;
   utterance.pitch = 1.1;
   utterance.volume = 1;
+  utterance.onend = () => onEnd?.();
+  utterance.onerror = () => onEnd?.();
 
   const pickVoice = () => {
     const voices = window.speechSynthesis.getVoices();
@@ -46,7 +72,10 @@ function speakText(text: string, lang = "es-ES") {
   const voices = window.speechSynthesis.getVoices();
   if (voices.length) pickVoice();
   else {
-    window.speechSynthesis.onvoiceschanged = () => { pickVoice(); window.speechSynthesis.onvoiceschanged = null; };
+    window.speechSynthesis.onvoiceschanged = () => {
+      pickVoice();
+      window.speechSynthesis.onvoiceschanged = null;
+    };
     setTimeout(pickVoice, 100);
   }
 }
@@ -69,29 +98,38 @@ function playFromUrl(url: string): Promise<void> {
   });
 }
 
+export type PlaySoundOptions = {
+  audioUrl?: string;
+  /** Se llama cuando termina el audio o la voz sintética */
+  onPlaybackEnd?: () => void;
+};
+
 /**
  * Reproduce el sonido indicado.
- * Si hay audioUrl en los datos, la usa. Sino, usa onomatopeya con Speech API.
+ * Prioridad: audioUrl explícita → URL por defecto (Commons) → TTS con onomatopeya.
  */
-export function playSound(
-  soundKey: string,
-  options?: { audioUrl?: string }
-): void {
+export function playSound(soundKey: string, options?: PlaySoundOptions): void {
   const key = soundKey.toLowerCase().trim();
-  const url = options?.audioUrl;
+  const onEnd = options?.onPlaybackEnd;
+  const explicitUrl = options?.audioUrl;
+  const fallbackUrl = DEFAULT_SOUND_URLS[key];
+  const url = explicitUrl || fallbackUrl;
+
+  const speakFallback = () => {
+    speakText(ONOMATOPEYAS[key] || soundKey, "es-ES", onEnd);
+  };
 
   if (url) {
-    playFromUrl(url).catch(() => {
-      speakText(ONOMATOPEYAS[key] || soundKey);
-    });
+    playFromUrl(url)
+      .then(() => onEnd?.())
+      .catch(() => {
+        speakFallback();
+      });
   } else {
-    speakText(ONOMATOPEYAS[key] || soundKey);
+    speakFallback();
   }
 }
 
-/**
- * Detiene cualquier sonido en reproducción
- */
 export function stopSound(): void {
   if (typeof window !== "undefined") {
     window.speechSynthesis?.cancel();

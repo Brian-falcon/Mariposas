@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Activity } from "@/types";
 import { useActivityReport } from "@/context/ActivityReportContext";
+import { shuffleArray } from "@/lib/shuffle";
 
 type Round = { items: string[]; correctAnswer: number; options: number[]; label?: string };
 
@@ -24,6 +25,11 @@ export function ChooseNumber({ activity }: { activity: Activity }) {
   const [showCorrect, setShowCorrect] = useState(false);
 
   const round = rounds[currentRound];
+  const shuffledOptions = useMemo(
+    () => (round ? shuffleArray(round.options) : []),
+    [currentRound, round]
+  );
+
   if (!round) return null;
 
   const handleCorrect = () => setShowCorrect(true);
@@ -71,7 +77,7 @@ export function ChooseNumber({ activity }: { activity: Activity }) {
         ))}
       </div>
       <div className="flex flex-wrap justify-center gap-4">
-        {round.options.map((n) => (
+        {shuffledOptions.map((n) => (
           <button
             key={n}
             onClick={() => {

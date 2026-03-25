@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Activity } from "@/types";
 import { ActivityFeedback } from "./ActivityFeedback";
 import { useActivityReport } from "@/context/ActivityReportContext";
+import { shuffleArray } from "@/lib/shuffle";
 
 type Round = { a: number; b: number; answer: number };
 
@@ -22,14 +23,19 @@ export function SumWithDots({ activity }: { activity: Activity }) {
   }, [result, currentRound, rounds.length, report]);
 
   const round = rounds[currentRound];
+  const options = useMemo(() => {
+    if (!round) return [] as number[];
+    const wrongOptions = [round.answer - 2, round.answer - 1, round.answer + 1, round.answer + 2]
+      .filter((n) => n >= 0 && n !== round.answer);
+    const allOptions = Array.from(new Set([round.answer, ...wrongOptions])).sort((a, b) => a - b);
+    const built = allOptions.length >= 3 ? allOptions.slice(0, 4) : [round.answer - 1, round.answer, round.answer + 1].filter((n) => n >= 0);
+    return shuffleArray(built);
+  }, [round, currentRound]);
+
   if (!round) return null;
 
   const dotsA = "•".repeat(round.a);
   const dotsB = "•".repeat(round.b);
-  const wrongOptions = [round.answer - 2, round.answer - 1, round.answer + 1, round.answer + 2]
-    .filter((n) => n >= 0 && n !== round.answer);
-  const allOptions = Array.from(new Set([round.answer, ...wrongOptions])).sort((a, b) => a - b);
-  const options = allOptions.length >= 3 ? allOptions.slice(0, 4) : [round.answer - 1, round.answer, round.answer + 1].filter((n) => n >= 0);
 
   const handleSelect = (n: number) => {
     if (result !== null) return;

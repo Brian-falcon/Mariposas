@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Activity } from "@/types";
 import { playSound, stopSound } from "@/lib/sounds";
 import { ActivityFeedback } from "./ActivityFeedback";
 import { useActivityReport } from "@/context/ActivityReportContext";
+import { shuffleArray } from "@/lib/shuffle";
 
 type SoundRound = {
   correctSound: string;
@@ -23,6 +24,14 @@ export function ChooseSound({ activity }: { activity: Activity }) {
 
   const round = rounds[currentRound];
 
+  const choicePairs = useMemo(
+    () =>
+      round
+        ? shuffleArray(round.options.map((opt, i) => ({ opt, emoji: round.emojis[i] ?? "" })))
+        : [],
+    [currentRound, round]
+  );
+
   useEffect(() => () => stopSound(), [activity.id]);
   useEffect(() => {
     if (result !== null && currentRound >= rounds.length - 1) {
@@ -33,8 +42,10 @@ export function ChooseSound({ activity }: { activity: Activity }) {
   const handlePlay = () => {
     if (!round) return;
     setIsPlaying(true);
-    playSound(round.correctSound, { audioUrl: round.audioUrl });
-    setTimeout(() => setIsPlaying(false), 2500);
+    playSound(round.correctSound, {
+      audioUrl: round.audioUrl,
+      onPlaybackEnd: () => setIsPlaying(false),
+    });
   };
 
   const handleNext = () => {
@@ -85,13 +96,14 @@ export function ChooseSound({ activity }: { activity: Activity }) {
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-4">
-        {round.options.map((opt, i) => (
+        {choicePairs.map(({ opt, emoji }) => (
           <button
-            key={i}
+            key={`${opt}-${emoji}`}
+            type="button"
             onClick={() => setResult(opt === round.correctSound)}
             className="flex flex-col items-center gap-2 px-8 py-6 rounded-2xl bg-primary-100 hover:bg-primary-200 transition-all"
           >
-            <span className="text-5xl">{round.emojis[i]}</span>
+            <span className="text-5xl">{emoji}</span>
             <span className="text-xl font-bold capitalize">{opt}</span>
           </button>
         ))}
