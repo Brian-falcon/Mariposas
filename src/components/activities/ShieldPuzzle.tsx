@@ -3,9 +3,16 @@
 import { useState } from "react";
 import { Activity } from "@/types";
 
+type PuzzleImage = { src: string; label: string };
+
 type ShieldData = {
-  shield: "penarol" | "nacional";
+  // "shield" se mantiene solo para compatibilidad con actividades antiguas.
+  shield?: "penarol" | "nacional";
   pieces: number;
+  // Modo nuevo: puzzle con una imagen (o varias opciones a elegir al azar).
+  image?: string;
+  label?: string;
+  images?: PuzzleImage[];
 };
 
 const SHIELD_IMAGES: Record<string, string> = {
@@ -22,8 +29,28 @@ export function ShieldPuzzle({ activity }: { activity: Activity }) {
   const data = activity.data as ShieldData;
   const pieces = data.pieces || 9;
   const size = Math.ceil(Math.sqrt(pieces));
-  const imageSrc = SHIELD_IMAGES[data.shield] || SHIELD_IMAGES.penarol;
-  const name = SHIELD_NAMES[data.shield] || "Peñarol";
+
+  // Elegimos una imagen al montar (no en cada render) para que el puzzle sea consistente.
+  const [puzzle] = useState(() => {
+    const fallback = { src: "/images/avion.png", label: "Imagen" };
+    if (Array.isArray(data.images) && data.images.length > 0) {
+      const pick = data.images[Math.floor(Math.random() * data.images.length)];
+      return { src: pick.src, label: pick.label };
+    }
+    if (typeof data.image === "string" && data.image.trim()) {
+      return { src: data.image, label: data.label || "Imagen" };
+    }
+    if (data.shield) {
+      return {
+        src: SHIELD_IMAGES[data.shield] || fallback.src,
+        label: SHIELD_NAMES[data.shield] || fallback.label,
+      };
+    }
+    return fallback;
+  });
+
+  const imageSrc = puzzle.src;
+  const name = puzzle.label;
 
   const [order, setOrder] = useState(
     () => Array.from({ length: pieces }, (_, i) => i).sort(() => Math.random() - 0.5)
@@ -55,12 +82,12 @@ export function ShieldPuzzle({ activity }: { activity: Activity }) {
     return (
       <div className="p-4 sm:p-6 md:p-8 text-center">
         <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-700 mb-4 md:mb-6">
-          ¡Escudo de {name} completo! 🏆
+          ¡Puzzle de {name} completo! 🏆
         </p>
         <div className="flex justify-center mb-4 md:mb-6">
           <img
             src={imageSrc}
-            alt={`Escudo de ${name} armado`}
+            alt={`Puzzle de ${name} completo`}
             className="max-w-[240px] xs:max-w-[280px] sm:max-w-[320px] md:max-w-[400px] w-full h-auto rounded-xl shadow-lg"
           />
         </div>
@@ -72,7 +99,7 @@ export function ShieldPuzzle({ activity }: { activity: Activity }) {
   return (
     <div className="p-4 sm:p-5 md:p-6">
       <p className="text-base sm:text-lg md:text-xl text-center mb-3 md:mb-6">
-        Arma el escudo de {name} (toca dos piezas para intercambiarlas)
+        Arma el puzzle de {name} (toca dos piezas para intercambiarlas)
       </p>
       <div className="relative">
         <img

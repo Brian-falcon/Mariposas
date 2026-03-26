@@ -182,24 +182,42 @@ export const juegosActivities: Activity[] = [
       gridSize: 4,
     },
   },
-  // Puzzles escudos
+  // Puzzles de imagen
   {
     id: "jue-14",
-    title: "Puzzle - Escudo Peñarol",
-    description: "Arma el escudo de Peñarol",
+    title: "Puzzle - Imagen (variado)",
+    description: "Arma el puzzle con una imagen real variada",
     category: "juegos",
     difficulty: "easy",
     type: "shield-puzzle",
-    data: { shield: "penarol", pieces: 9 },
+    data: {
+      pieces: 9,
+      images: [
+        { src: "/images/avion.png", label: "Avión" },
+        { src: "/images/caballo.png", label: "Caballo" },
+        { src: "/images/vaca.png", label: "Vaca" },
+        { src: "/mandalas/mandala-1.png", label: "Mandala 1" },
+        { src: "/mandalas/mandala-2.png", label: "Mandala 2" },
+      ],
+    },
   },
   {
     id: "jue-15",
-    title: "Puzzle - Escudo Nacional",
-    description: "Arma el escudo de Nacional",
+    title: "Puzzle - Imagen (variado 2)",
+    description: "Arma el puzzle con otra imagen real variada",
     category: "juegos",
     difficulty: "easy",
     type: "shield-puzzle",
-    data: { shield: "nacional", pieces: 9 },
+    data: {
+      pieces: 9,
+      images: [
+        { src: "/images/avion.png", label: "Avión" },
+        { src: "/images/caballo.png", label: "Caballo" },
+        { src: "/images/vaca.png", label: "Vaca" },
+        { src: "/mandalas/mandala-2.png", label: "Mandala 2" },
+        { src: "/mandalas/mandala-3.png", label: "Mandala 3" },
+      ],
+    },
   },
   // Puzzles emoji
   {
@@ -553,16 +571,16 @@ export const juegosActivities: Activity[] = [
   },
   {
     id: "jue-escudos",
-    title: "Unir escudos - Nacional, Peñarol y Barcelona",
-    description: "Une cada escudo con su lugar. Toca la imagen de abajo y luego el recuadro donde va.",
+    title: "Unir imágenes - Avión, caballo y vaca",
+    description: "Une cada imagen con su lugar. Toca la imagen de abajo y luego el recuadro donde va.",
     category: "juegos",
     difficulty: "easy",
     type: "match-image-to-image",
     data: {
       images: [
-        { id: "nacional", src: "/images/nacional.png" },
-        { id: "penarol", src: "/images/penarol.png" },
-        { id: "barcelona", src: "/images/barcelona.png" },
+        { id: "avion", src: "/images/avion.png" },
+        { id: "caballo", src: "/images/caballo.png" },
+        { id: "vaca", src: "/images/vaca.png" },
       ],
     },
   },
